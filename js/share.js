@@ -1,3 +1,5 @@
+import { getProfileUrl } from "./profile-url.js";
+
 async function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     await navigator.clipboard.writeText(text);
@@ -20,7 +22,9 @@ async function copyText(text) {
 }
 
 export async function shareProfile(profile) {
-  const url = profile.website?.trim() || window.location.href;
+  const url = getProfileUrl(profile);
+
+  console.log("Endereço utilizado na partilha:", url);
 
   const shareData = {
     title: `${profile.name} | IdentityHub Pro`,

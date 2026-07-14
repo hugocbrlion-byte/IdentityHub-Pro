@@ -1,3 +1,5 @@
+import { getProfileUrl } from "./profile-url.js";
+
 export function renderQRCode(profile) {
   const container = document.querySelector("#qr-code");
 
@@ -9,8 +11,9 @@ export function renderQRCode(profile) {
     throw new Error("A biblioteca QRCode.js não foi carregada.");
   }
 
-  const destination =
-    profile.website?.trim() || window.location.href;
+  const destination = getProfileUrl(profile);
+
+  console.log("Endereço utilizado pelo QR Code:", destination);
 
   container.replaceChildren();
 
