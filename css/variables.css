@@ -1,0 +1,57 @@
+:root {
+  /* Nebula Carbon colours */
+  --colour-background: #05070a;
+  --colour-surface: rgba(255, 255, 255, 0.075);
+  --colour-surface-hover: rgba(255, 255, 255, 0.1);
+  --colour-border: rgba(255, 255, 255, 0.13);
+
+  --colour-primary: #7657ff;
+  --colour-secondary: #a855f7;
+  --colour-accent: #00cfee;
+  --colour-gold: #e6b95c;
+
+  --colour-text: #ffffff;
+  --colour-text-muted: rgba(255, 255, 255, 0.72);
+
+  /* Gradients */
+  --gradient-profile: conic-gradient(
+    from 0deg,
+    var(--colour-primary),
+    var(--colour-accent),
+    var(--colour-secondary),
+    var(--colour-primary)
+  );
+
+  --gradient-button: linear-gradient(
+    135deg,
+    var(--colour-primary),
+    #6757ff
+  );
+
+  /* Shadows */
+  --shadow-card:
+    0 24px 80px rgba(0, 0, 0, 0.55),
+    0 0 45px rgba(108, 99, 255, 0.12);
+
+  --shadow-button:
+    0 10px 30px rgba(108, 99, 255, 0.3);
+
+  /* Radius */
+  --radius-small: 12px;
+  --radius-medium: 20px;
+  --radius-large: 30px;
+  --radius-pill: 999px;
+
+  /* Spacing */
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 2.5rem;
+
+  /* Motion */
+  --transition-fast: 180ms ease;
+  --transition-normal: 320ms ease;
+  --transition-slow: 650ms ease;
+}

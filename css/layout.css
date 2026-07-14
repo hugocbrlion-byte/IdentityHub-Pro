@@ -1,0 +1,61 @@
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(108, 99, 255, 0.2),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(0, 207, 238, 0.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 52% 45%,
+      rgba(168, 85, 247, 0.08),
+      transparent 46%
+    ),
+    var(--colour-background);
+}
+
+.background::before,
+.background::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: auroraFloat 14s ease-in-out infinite alternate;
+}
+
+.background::before {
+  top: -12rem;
+  left: -10rem;
+  width: 30rem;
+  height: 30rem;
+  background: var(--colour-primary);
+}
+
+.background::after {
+  right: -12rem;
+  bottom: -12rem;
+  width: 34rem;
+  height: 34rem;
+  background: var(--colour-accent);
+  animation-delay: -7s;
+}
+
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 3rem 1.5rem;
+}

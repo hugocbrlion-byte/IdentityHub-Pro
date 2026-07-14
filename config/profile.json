@@ -1,15 +1,12 @@
 {
-    "name":"Hugo Rodrigues",
-
-    "title":"One Tap. Infinite Connections.",
-
-    "phone":"+351964641424",
-
-    "email":"hugo.rodigues.81@outlook.pt",
-
-    "instagram":"https://www.instagram.com/hugocbrlion/?hl=zh-cn",
-
-    "steam":"https://steamcommunity.com/id/lscoelho/",
-
-    "whatsapp":"+351964641424"
+  "name": "Hugo Rodrigues",
+  "tagline": "One Tap. Infinite Connections.",
+  "job": "Store Manager",
+  "location": "Portugal",
+  "phone": "+351966461424",
+  "whatsapp": "+351966461424",
+  "email": "hugo.rodrigues.81@outlook.pt",
+  "instagram": "https://www.instagram.com/hugocbrlion/",
+  "steam": "https://steamcommunity.com/id/lscoelho/",
+  "website": "https://hugocbrlion.github.io/IdentityHub-Pro"
 }

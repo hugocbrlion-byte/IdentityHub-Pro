@@ -1,0 +1,33 @@
+@media (max-width: 480px) {
+  .app-shell {
+    align-items: start;
+    padding: 1rem;
+  }
+
+  .card {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 2.25rem 1.35rem;
+    border-radius: 26px;
+  }
+
+  .avatar-wrapper {
+    width: 150px;
+    height: 150px;
+  }
+
+  .avatar {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+  }
+
+  .primary-btn:hover {
+    transform: none;
+  }
+}
