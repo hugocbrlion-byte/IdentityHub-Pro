@@ -1,0 +1,38 @@
+{
+  "name": "IdentityHub Pro",
+  "short_name": "IdentityHub",
+  "description": "Cartão digital premium de Hugo Rodrigues.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#05070a",
+  "theme_color": "#05070a",
+  "lang": "pt-PT",
+  "orientation": "portrait-primary",
+  "categories": [
+    "business",
+    "productivity",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { renderQRCode } from "./qr.js";
 import { downloadVCard } from "./vcard.js";
 import { shareProfile } from "./share.js";
 import { showToast } from "./toast.js";
+import { registerServiceWorker } from "./pwa.js";
 
 function renderProfile(profile) {
   const nameElement = document.querySelector("#profile-name");
@@ -89,4 +90,5 @@ async function start() {
   }
 }
 
+registerServiceWorker();
 start();

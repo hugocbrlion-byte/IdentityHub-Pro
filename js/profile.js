@@ -1,8 +1,8 @@
 export async function loadProfile() {
   const response = await fetch(
-    `./config/profile.json?v=${Date.now()}`,
+    "./config/profile.json",
     {
-      cache: "no-store"
+      cache: "no-cache"
     }
   );
 
