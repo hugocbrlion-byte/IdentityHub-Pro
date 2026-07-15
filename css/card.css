@@ -145,3 +145,150 @@
 
   box-shadow: 0 0 10px rgba(0, 207, 238, 0.8);
 }
+/* ==================================================
+   MOTION ENGINE
+================================================== */
+
+.card {
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --lift-y: 0px;
+
+  --avatar-x: 0px;
+  --avatar-y: 0px;
+
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+
+  transform:
+    perspective(1100px)
+    translate3d(0, var(--lift-y), 0)
+    rotateX(var(--rotate-x))
+    rotateY(var(--rotate-y));
+
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  animation-fill-mode: none;
+
+  transition:
+    transform 100ms linear,
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.card:hover {
+  --lift-y: -7px;
+
+  transform:
+    perspective(1100px)
+    translate3d(0, var(--lift-y), 0)
+    rotateX(var(--rotate-x))
+    rotateY(var(--rotate-y));
+}
+
+.card--resetting {
+  transition:
+    transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+/*
+ * Luz que acompanha o cursor ou o movimento
+ * do telemóvel.
+ */
+.card::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  pointer-events: none;
+
+  opacity: 0.72;
+
+  background:
+    radial-gradient(
+      circle at
+      var(--spotlight-x)
+      var(--spotlight-y),
+      rgba(255, 255, 255, 0.14),
+      rgba(118, 87, 255, 0.055) 20%,
+      transparent 46%
+    );
+
+  transition: opacity var(--transition-normal);
+}
+
+.card:hover::after,
+.card--motion-active::after {
+  opacity: 1;
+}
+
+.light-reflection {
+  z-index: 1;
+}
+
+.avatar-wrapper {
+  z-index: 3;
+
+  transform:
+    translate3d(
+      var(--avatar-x),
+      var(--avatar-y),
+      36px
+    );
+
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  transition:
+    transform 110ms linear,
+    filter var(--transition-normal);
+}
+
+.profile-content {
+  transform: translateZ(24px);
+  transform-style: preserve-3d;
+}
+
+.contact-actions {
+  transform: translateZ(18px);
+  transform-style: preserve-3d;
+}
+
+.qr-section {
+  transform: translateZ(12px);
+  transform-style: preserve-3d;
+}
+
+.motion-trigger {
+  cursor: pointer;
+}
+
+.motion-trigger:focus-visible {
+  border-radius: 50%;
+
+  outline: 3px solid rgba(0, 207, 238, 0.7);
+  outline-offset: 8px;
+}
+
+@media (hover: none) {
+  .card:hover {
+    --lift-y: 0px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .avatar-wrapper {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .card::after {
+    display: none;
+  }
+}

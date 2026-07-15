@@ -48,3 +48,33 @@
     transition-duration: 1ms !important;
   }
 }
+/* ==================================================
+   AURORA RING
+================================================== */
+
+.avatar-ring {
+  animation:
+    spin 7s linear infinite,
+    auroraRingPulse 3.8s ease-in-out infinite;
+}
+
+@keyframes auroraRingPulse {
+  0%,
+  100% {
+    filter:
+      drop-shadow(
+        0 0 15px rgba(108, 99, 255, 0.32)
+      );
+
+    opacity: 0.9;
+  }
+
+  50% {
+    filter:
+      drop-shadow(
+        0 0 27px rgba(0, 207, 238, 0.52)
+      );
+
+    opacity: 1;
+  }
+}
