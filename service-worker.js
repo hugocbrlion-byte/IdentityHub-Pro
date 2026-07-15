@@ -1,4 +1,4 @@
-const CACHE_VERSION = "identityhub-pro-v4";
+const CACHE_VERSION = "identityhub-pro-v7";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
