@@ -182,42 +182,62 @@
     Aponta a câmara para abrir o cartão digital.
   </p>
 
-  <div class="profile-buttons">
-    <button
-      class="profile-button profile-button--primary"
-      id="save-contact-button"
-      type="button"
-    >
-      <span class="profile-button__icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <circle cx="9" cy="8" r="3"></circle>
-          <path d="M3.5 19c.7-4 2.7-6 5.5-6s4.8 2 5.5 6"></path>
-          <path d="M18 8v6"></path>
-          <path d="M15 11h6"></path>
-        </svg>
-      </span>
+ <div class="profile-buttons">
+  <!-- Guardar contacto -->
+  <button
+    class="profile-button profile-button--primary"
+    id="save-contact-button"
+    type="button"
+  >
+    <span class="profile-button__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3"></circle>
+        <path d="M3.5 19c.7-4 2.7-6 5.5-6s4.8 2 5.5 6"></path>
+        <path d="M18 8v6"></path>
+        <path d="M15 11h6"></path>
+      </svg>
+    </span>
 
-      <span>Guardar contacto</span>
-    </button>
+    <span>Guardar contacto</span>
+  </button>
 
-    <button
-      class="profile-button profile-button--secondary"
-      id="share-button"
-      type="button"
-    >
-      <span class="profile-button__icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <circle cx="18" cy="5" r="2.5"></circle>
-          <circle cx="6" cy="12" r="2.5"></circle>
-          <circle cx="18" cy="19" r="2.5"></circle>
-          <path d="m8.3 10.8 7.4-4.4"></path>
-          <path d="m8.3 13.2 7.4 4.4"></path>
-        </svg>
-      </span>
+  <!-- Partilhar -->
+  <button
+    class="profile-button profile-button--secondary"
+    id="share-button"
+    type="button"
+  >
+    <span class="profile-button__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="2.5"></circle>
+        <circle cx="6" cy="12" r="2.5"></circle>
+        <circle cx="18" cy="19" r="2.5"></circle>
+        <path d="m8.3 10.8 7.4-4.4"></path>
+        <path d="m8.3 13.2 7.4 4.4"></path>
+      </svg>
+    </span>
 
-      <span>Partilhar</span>
-    </button>
-  </div>
+    <span>Partilhar</span>
+  </button>
+
+  <!-- Instalar aplicação -->
+  <button
+    class="profile-button profile-button--install"
+    id="install-app-button"
+    type="button"
+    hidden
+  >
+    <span class="profile-button__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 3v12"></path>
+        <path d="m7 10 5 5 5-5"></path>
+        <path d="M5 19h14"></path>
+      </svg>
+    </span>
+
+    <span>Instalar aplicação</span>
+  </button>
+</div>
 </section>
 
 <div

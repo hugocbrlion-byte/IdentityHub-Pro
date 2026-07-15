@@ -1,4 +1,4 @@
-const CACHE_VERSION = "identityhub-pro-v1";
+const CACHE_VERSION = "identityhub-pro-v4";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
@@ -12,6 +12,9 @@ const APP_SHELL = [
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-maskable-512.png",
   "./assets/icons/apple-touch-icon.png",
+
+  "./assets/screenshots/desktop-wide.png",
+  "./assets/screenshots/mobile-narrow.png",
 
   "./config/profile.json",
 
@@ -34,24 +37,36 @@ const APP_SHELL = [
   "./js/vcard.js",
   "./js/share.js",
   "./js/toast.js",
-  "./js/pwa.js"
+  "./js/pwa.js",
+  "./js/install.js"
 ];
 
 /*
- * Guarda os ficheiros essenciais quando o Service Worker
- * é instalado.
+ * Instala o Service Worker e guarda os ficheiros essenciais.
  */
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE_VERSION)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_VERSION).then(async (cache) => {
+      const results = await Promise.allSettled(
+        APP_SHELL.map((file) => cache.add(file))
+      );
+
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          console.warn(
+            `Não foi possível guardar na cache: ${APP_SHELL[index]}`,
+            result.reason
+          );
+        }
+      });
+
+      await self.skipWaiting();
+    })
   );
 });
 
 /*
- * Elimina versões antigas da cache.
+ * Apaga versões antigas da cache.
  */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -69,46 +84,9 @@ self.addEventListener("activate", (event) => {
 });
 
 /*
- * Guarda uma resposta válida na cache.
+ * Tenta obter a versão mais recente através da Internet.
+ * Se não houver ligação, utiliza a versão guardada.
  */
-async function saveResponse(request, response) {
-  if (
-    response &&
-    (response.ok || response.type === "opaque")
-  ) {
-    const cache = await caches.open(CACHE_VERSION);
-
-    await cache.put(request, response.clone());
-  }
-
-  return response;
-}
-
-/*
- * Estratégia Network First:
- * tenta obter a versão mais recente e usa a cache
- * caso a ligação falhe.
- */
-async function networkFirst(request) {
-  try {
-    const response = await fetch(request);
-
-    return saveResponse(request, response);
-  } catch {
-    const cachedResponse = await caches.match(request);
-
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-
-    if (request.mode === "navigate") {
-      return caches.match(OFFLINE_PAGE);
-    }
-
-    return Response.error();
-  }
-}
-
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
@@ -116,5 +94,31 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(networkFirst(request));
+  event.respondWith(
+    fetch(request)
+      .then(async (response) => {
+        if (
+          response &&
+          (response.ok || response.type === "opaque")
+        ) {
+          const cache = await caches.open(CACHE_VERSION);
+          await cache.put(request, response.clone());
+        }
+
+        return response;
+      })
+      .catch(async () => {
+        const cachedResponse = await caches.match(request);
+
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        if (request.mode === "navigate") {
+          return caches.match(OFFLINE_PAGE);
+        }
+
+        return Response.error();
+      })
+  );
 });

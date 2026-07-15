@@ -5,6 +5,7 @@ import { downloadVCard } from "./vcard.js";
 import { shareProfile } from "./share.js";
 import { showToast } from "./toast.js";
 import { registerServiceWorker } from "./pwa.js";
+import { setupInstallButton } from "./install.js";
 
 function renderProfile(profile) {
   const nameElement = document.querySelector("#profile-name");
@@ -91,4 +92,5 @@ async function start() {
 }
 
 registerServiceWorker();
+setupInstallButton();
 start();

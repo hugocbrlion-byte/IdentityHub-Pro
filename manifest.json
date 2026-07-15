@@ -34,5 +34,21 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "./assets/screenshots/desktop-wide.png",
+      "sizes": "1920x1032",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "IdentityHub Pro apresentado num computador"
+    },
+    {
+      "src": "./assets/screenshots/mobile-narrow.png",
+      "sizes": "391x827",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "IdentityHub Pro apresentado num telemóvel"
+    }
   ]
 }
