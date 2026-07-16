@@ -7,6 +7,7 @@ import { showToast } from "./toast.js";
 import { registerServiceWorker } from "./pwa.js";
 import { setupInstallButton } from "./install.js";
 import { setupMotionEffects } from "./motion.js";
+import { setupVisitCounter } from "./visits.js";
 
 import {
   initialiseI18n,
@@ -17,29 +18,19 @@ let activeProfile = null;
 
 function renderProfile(profile) {
   const nameElement =
-    document.querySelector(
-      "#profile-name"
-    );
+    document.querySelector("#profile-name");
 
   const taglineElement =
-    document.querySelector(
-      "#profile-tagline"
-    );
+    document.querySelector("#profile-tagline");
 
   const jobElement =
-    document.querySelector(
-      "#profile-job"
-    );
+    document.querySelector("#profile-job");
 
   const locationElement =
-    document.querySelector(
-      "#profile-location"
-    );
+    document.querySelector("#profile-location");
 
   const avatarElement =
-    document.querySelector(
-      "#profile-avatar"
-    );
+    document.querySelector("#profile-avatar");
 
   nameElement.textContent =
     profile.name;
@@ -76,6 +67,14 @@ function setupProfileButtons(profile) {
     document.querySelector(
       "#share-button"
     );
+
+  if (!saveButton || !shareButton) {
+    console.warn(
+      "Os botões principais não foram encontrados."
+    );
+
+    return;
+  }
 
   saveButton.addEventListener(
     "click",
@@ -133,10 +132,6 @@ function setupLanguageUpdates() {
         return;
       }
 
-      /*
-       * Os botões são gerados por JavaScript,
-       * portanto são recriados quando o idioma muda.
-       */
       renderContactActions(
         activeProfile
       );
@@ -155,17 +150,23 @@ async function start() {
     activeProfile =
       await loadProfile();
 
-    renderProfile(activeProfile);
+    renderProfile(
+      activeProfile
+    );
 
     renderContactActions(
       activeProfile
     );
 
-    renderQRCode(activeProfile);
+    renderQRCode(
+      activeProfile
+    );
 
     setupProfileButtons(
       activeProfile
     );
+
+    await setupVisitCounter();
 
     console.log(
       "Perfil carregado:",

@@ -17,6 +17,12 @@ const translations = {
       install: "Instalar aplicação"
     },
 
+stats: {
+  visit: "visita",
+  visits: "visitas",
+  unavailable: "Contador indisponível"
+},
+
     actions: {
       phone: "Telefonar",
       whatsapp: "WhatsApp",
@@ -69,6 +75,12 @@ const translations = {
       share: "Share",
       install: "Install app"
     },
+
+    stats: {
+  visit: "view",
+  visits: "views",
+  unavailable: "Counter unavailable"
+},
 
     actions: {
       phone: "Call",
