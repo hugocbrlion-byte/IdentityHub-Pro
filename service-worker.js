@@ -1,4 +1,4 @@
-const CACHE_VERSION = "identityhub-pro-v8";
+const CACHE_VERSION = "identityhub-pro-v9";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
@@ -40,7 +40,7 @@ const APP_SHELL = [
   "./js/pwa.js",
   "./js/install.js",
   "./js/motion.js",
-  
+  "./js/i18n.js",
 ];
 
 /*

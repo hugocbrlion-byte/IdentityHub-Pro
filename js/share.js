@@ -1,21 +1,34 @@
 import { getProfileUrl } from "./profile-url.js";
+import { t } from "./i18n.js";
 
 async function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
+  if (
+    navigator.clipboard &&
+    window.isSecureContext
+  ) {
+    await navigator.clipboard.writeText(
+      text
+    );
+
     return;
   }
 
-  const textarea = document.createElement("textarea");
+  const textarea =
+    document.createElement("textarea");
 
   textarea.value = text;
-  textarea.setAttribute("readonly", "");
+  textarea.setAttribute(
+    "readonly",
+    ""
+  );
+
   textarea.style.position = "fixed";
   textarea.style.opacity = "0";
 
   document.body.appendChild(textarea);
 
   textarea.select();
+
   document.execCommand("copy");
 
   textarea.remove();
@@ -24,11 +37,18 @@ async function copyText(text) {
 export async function shareProfile(profile) {
   const url = getProfileUrl(profile);
 
-  console.log("Endereço utilizado na partilha:", url);
-
   const shareData = {
-    title: `${profile.name} | IdentityHub Pro`,
-    text: `${profile.name} — ${profile.tagline}`,
+    title:
+      `${profile.name} | IdentityHub Pro`,
+
+    text: t(
+      "share.text",
+      {
+        name: profile.name,
+        tagline: profile.tagline
+      }
+    ),
+
     url
   };
 
@@ -46,7 +66,10 @@ export async function shareProfile(profile) {
         };
       }
 
-      console.error("Erro na partilha nativa:", error);
+      console.error(
+        "Erro na partilha nativa:",
+        error
+      );
     }
   }
 
