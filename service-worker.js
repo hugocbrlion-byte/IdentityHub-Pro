@@ -1,9 +1,11 @@
-const CACHE_VERSION = "identityhub-pro-v14";
+const CACHE_VERSION =
+  "identityhub-pro-v16";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./admin.html",
   "./favicon.svg",
   "./manifest.json",
 
@@ -19,6 +21,7 @@ const APP_SHELL = [
   "./config/profile.json",
 
   "./css/style.css",
+  "./css/admin.css",
   "./css/variables.css",
   "./css/reset.css",
   "./css/base.css",
@@ -30,6 +33,7 @@ const APP_SHELL = [
   "./css/responsive.css",
 
   "./js/app.js",
+  "./js/admin-auth.js",
   "./js/profile.js",
   "./js/profile-url.js",
   "./js/actions.js",

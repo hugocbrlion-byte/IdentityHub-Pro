@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#05070a"
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
+
+  <title>Administração | IdentityHub Pro</title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="./favicon.svg"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/admin.css"
+  >
+</head>
+
+<body>
+
+  <div
+    class="admin-background"
+    aria-hidden="true"
+  ></div>
+
+  <main class="admin-shell">
+
+    <!-- LOGIN -->
+    <section
+      class="admin-auth"
+      id="login-panel"
+    >
+
+      <div class="admin-brand">
+
+        <div
+          class="admin-brand__icon"
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 24 24">
+            <rect
+              x="4"
+              y="10"
+              width="16"
+              height="11"
+              rx="3"
+            ></rect>
+
+            <path
+              d="M8 10V7a4 4 0 0 1 8 0v3"
+            ></path>
+          </svg>
+        </div>
+
+        <span class="admin-brand__eyebrow">
+          IdentityHub Pro
+        </span>
+
+        <h1>
+          Área de administração
+        </h1>
+
+        <p>
+          Inicia sessão para gerir o teu cartão digital.
+        </p>
+
+      </div>
+
+      <form
+        class="admin-form"
+        id="login-form"
+      >
+
+        <label class="admin-field">
+
+          <span>Email</span>
+
+          <input
+            type="email"
+            id="admin-email"
+            name="email"
+            autocomplete="email"
+            placeholder="email@exemplo.pt"
+            required
+          >
+
+        </label>
+
+        <label class="admin-field">
+
+          <span>Palavra-passe</span>
+
+          <div class="admin-password">
+
+            <input
+              type="password"
+              id="admin-password"
+              name="password"
+              autocomplete="current-password"
+              placeholder="••••••••••••"
+              minlength="8"
+              required
+            >
+
+            <button
+              class="admin-password__toggle"
+              id="toggle-password"
+              type="button"
+              aria-label="Mostrar palavra-passe"
+            >
+              Mostrar
+            </button>
+
+          </div>
+
+        </label>
+
+        <button
+          class="admin-button admin-button--primary"
+          id="login-button"
+          type="submit"
+        >
+          <span id="login-button-text">
+            Entrar
+          </span>
+
+          <span
+            class="admin-spinner"
+            id="login-spinner"
+            hidden
+            aria-hidden="true"
+          ></span>
+        </button>
+
+        <p
+          class="admin-message"
+          id="login-message"
+          role="alert"
+          hidden
+        ></p>
+
+      </form>
+
+      <a
+        class="admin-back"
+        href="./index.html"
+      >
+        ← Voltar ao cartão
+      </a>
+
+    </section>
+
+    <!-- DASHBOARD -->
+    <section
+      class="admin-dashboard"
+      id="dashboard-panel"
+      hidden
+    >
+
+      <header class="admin-header">
+
+        <div>
+          <span class="admin-brand__eyebrow">
+            IdentityHub Pro
+          </span>
+
+          <h1>
+            Painel de administração
+          </h1>
+
+          <p id="admin-user-email"></p>
+        </div>
+
+        <div class="admin-header__actions">
+
+          <a
+            class="admin-button admin-button--secondary"
+            href="./index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver cartão
+          </a>
+
+          <button
+            class="admin-button admin-button--danger"
+            id="logout-button"
+            type="button"
+          >
+            Terminar sessão
+          </button>
+
+        </div>
+
+      </header>
+
+      <div class="admin-grid">
+
+        <article class="admin-module">
+
+          <div class="admin-module__icon">
+            👤
+          </div>
+
+          <h2>
+            Perfil
+          </h2>
+
+          <p>
+            Editar nome, profissão, contactos e redes sociais.
+          </p>
+
+          <span class="admin-module__status">
+            Próxima etapa
+          </span>
+
+        </article>
+
+        <article class="admin-module">
+
+          <div class="admin-module__icon">
+            📷
+          </div>
+
+          <h2>
+            Fotografia
+          </h2>
+
+          <p>
+            Carregar, recortar e substituir a fotografia.
+          </p>
+
+          <span class="admin-module__status">
+            Próxima etapa
+          </span>
+
+        </article>
+
+        <article class="admin-module">
+
+          <div class="admin-module__icon">
+            🎨
+          </div>
+
+          <h2>
+            Tema
+          </h2>
+
+          <p>
+            Escolher cores, brilho e efeitos de movimento.
+          </p>
+
+          <span class="admin-module__status">
+            Próxima etapa
+          </span>
+
+        </article>
+
+        <article class="admin-module">
+
+          <div class="admin-module__icon">
+            📊
+          </div>
+
+          <h2>
+            Estatísticas
+          </h2>
+
+          <p>
+            Consultar visitas e atividade do cartão.
+          </p>
+
+          <span class="admin-module__status">
+            Próxima etapa
+          </span>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script
+    type="module"
+    src="./js/admin-auth.js"
+  ></script>
+
+</body>
+
+</html>

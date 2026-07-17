@@ -37,9 +37,9 @@ export const supabaseClient =
     SUPABASE_PUBLISHABLE_KEY,
     {
       auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
       }
     }
   );
