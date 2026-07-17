@@ -1,5 +1,5 @@
 const CACHE_VERSION =
-  "identityhub-pro-v16";
+  "identityhub-pro-v17";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
@@ -22,6 +22,8 @@ const APP_SHELL = [
 
   "./css/style.css",
   "./css/admin.css",
+  "./css/admin-editor.css",
+  "./css/theme.css",
   "./css/variables.css",
   "./css/reset.css",
   "./css/base.css",
@@ -34,6 +36,8 @@ const APP_SHELL = [
 
   "./js/app.js",
   "./js/admin-auth.js",
+  "./js/admin-editor.js",
+  "./js/theme.js",
   "./js/profile.js",
   "./js/profile-url.js",
   "./js/actions.js",

@@ -1,36 +1,99 @@
-import { loadProfile } from "./profile.js";
-import { renderContactActions } from "./actions.js";
-import { renderQRCode } from "./qr.js";
-import { downloadVCard } from "./vcard.js";
-import { shareProfile } from "./share.js";
-import { showToast } from "./toast.js";
-import { registerServiceWorker } from "./pwa.js";
-import { setupInstallButton } from "./install.js";
-import { setupMotionEffects } from "./motion.js";
-import { setupVisitCounter } from "./visits.js";
+import {
+  loadProfile,
+  getLocalizedProfile
+} from "./profile.js";
+
+import {
+  renderContactActions
+} from "./actions.js";
+
+import {
+  renderQRCode
+} from "./qr.js";
+
+import {
+  downloadVCard
+} from "./vcard.js";
+
+import {
+  shareProfile
+} from "./share.js";
+
+import {
+  showToast
+} from "./toast.js";
+
+import {
+  registerServiceWorker
+} from "./pwa.js";
+
+import {
+  setupInstallButton
+} from "./install.js";
+
+import {
+  setupMotionEffects
+} from "./motion.js";
+
+import {
+  applyProfileTheme
+} from "./theme.js";
 
 import {
   initialiseI18n,
+  getLanguage,
   t
 } from "./i18n.js";
 
+import {
+  setupVisitCounter
+} from "./visits.js";
+
 let activeProfile = null;
 
-function renderProfile(profile) {
+function getCurrentProfile() {
+  if (!activeProfile) {
+    return null;
+  }
+
+  return getLocalizedProfile(
+    activeProfile,
+    getLanguage()
+  );
+}
+
+function renderProfile() {
+  const profile =
+    getCurrentProfile();
+
+  if (!profile) {
+    return;
+  }
+
   const nameElement =
-    document.querySelector("#profile-name");
+    document.querySelector(
+      "#profile-name"
+    );
 
   const taglineElement =
-    document.querySelector("#profile-tagline");
+    document.querySelector(
+      "#profile-tagline"
+    );
 
   const jobElement =
-    document.querySelector("#profile-job");
+    document.querySelector(
+      "#profile-job"
+    );
 
   const locationElement =
-    document.querySelector("#profile-location");
+    document.querySelector(
+      "#profile-location"
+    );
 
   const avatarElement =
-    document.querySelector("#profile-avatar");
+    document.querySelector(
+      "#profile-avatar"
+    );
 
   nameElement.textContent =
     profile.name;
@@ -44,8 +107,22 @@ function renderProfile(profile) {
   locationElement.textContent =
     profile.location;
 
+  avatarElement.src =
+    profile.photo_url;
+
   avatarElement.alt =
     `Fotografia de perfil de ${profile.name}`;
+
+  avatarElement.addEventListener(
+    "error",
+    () => {
+      avatarElement.src =
+        "./assets/images/profile.jpg";
+    },
+    {
+      once: true
+    }
+  );
 
   document.title =
     `${profile.name} | IdentityHub Pro`;
@@ -57,7 +134,7 @@ function vibrate(duration = 20) {
   }
 }
 
-function setupProfileButtons(profile) {
+function setupProfileButtons() {
   const saveButton =
     document.querySelector(
       "#save-contact-button"
@@ -69,16 +146,19 @@ function setupProfileButtons(profile) {
     );
 
   if (!saveButton || !shareButton) {
-    console.warn(
-      "Os botões principais não foram encontrados."
-    );
-
     return;
   }
 
   saveButton.addEventListener(
     "click",
     () => {
+      const profile =
+        getCurrentProfile();
+
+      if (!profile) {
+        return;
+      }
+
       vibrate();
 
       downloadVCard(profile);
@@ -92,6 +172,13 @@ function setupProfileButtons(profile) {
   shareButton.addEventListener(
     "click",
     async () => {
+      const profile =
+        getCurrentProfile();
+
+      if (!profile) {
+        return;
+      }
+
       vibrate();
 
       try {
@@ -128,12 +215,17 @@ function setupLanguageUpdates() {
   window.addEventListener(
     "identityhub:languagechange",
     () => {
-      if (!activeProfile) {
+      const profile =
+        getCurrentProfile();
+
+      if (!profile) {
         return;
       }
 
+      renderProfile();
+
       renderContactActions(
-        activeProfile
+        profile
       );
     }
   );
@@ -150,23 +242,33 @@ async function start() {
     activeProfile =
       await loadProfile();
 
-    renderProfile(
+    applyProfileTheme(
       activeProfile
     );
 
+    renderProfile();
+
+    const profile =
+      getCurrentProfile();
+
     renderContactActions(
-      activeProfile
+      profile
     );
 
     renderQRCode(
-      activeProfile
+      profile
     );
 
-    setupProfileButtons(
-      activeProfile
-    );
+    setupProfileButtons();
 
     await setupVisitCounter();
+
+    if (
+      activeProfile.motion_enabled !==
+      false
+    ) {
+      setupMotionEffects();
+    }
 
     console.log(
       "Perfil carregado:",
@@ -182,6 +284,5 @@ async function start() {
 
 registerServiceWorker();
 setupInstallButton();
-setupMotionEffects();
 setupLanguageUpdates();
 start();

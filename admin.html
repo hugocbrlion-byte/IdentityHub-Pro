@@ -28,8 +28,29 @@
   >
 
   <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
     rel="stylesheet"
     href="./css/admin.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/admin-editor.css"
   >
 </head>
 
@@ -89,22 +110,17 @@
       >
 
         <label class="admin-field">
-
           <span>Email</span>
 
           <input
             type="email"
             id="admin-email"
-            name="email"
             autocomplete="email"
-            placeholder="email@exemplo.pt"
             required
           >
-
         </label>
 
         <label class="admin-field">
-
           <span>Palavra-passe</span>
 
           <div class="admin-password">
@@ -112,9 +128,7 @@
             <input
               type="password"
               id="admin-password"
-              name="password"
               autocomplete="current-password"
-              placeholder="••••••••••••"
               minlength="8"
               required
             >
@@ -123,13 +137,11 @@
               class="admin-password__toggle"
               id="toggle-password"
               type="button"
-              aria-label="Mostrar palavra-passe"
             >
               Mostrar
             </button>
 
           </div>
-
         </label>
 
         <button
@@ -145,7 +157,6 @@
             class="admin-spinner"
             id="login-spinner"
             hidden
-            aria-hidden="true"
           ></span>
         </button>
 
@@ -211,89 +222,399 @@
 
       </header>
 
-      <div class="admin-grid">
+      <div class="admin-summary">
 
-        <article class="admin-module">
+        <div class="admin-summary__item">
+          <span>Total de visitas</span>
 
-          <div class="admin-module__icon">
-            👤
-          </div>
+          <strong id="admin-total-visits">
+            —
+          </strong>
+        </div>
 
-          <h2>
-            Perfil
-          </h2>
+        <div class="admin-summary__item">
+          <span>Estado</span>
 
-          <p>
-            Editar nome, profissão, contactos e redes sociais.
-          </p>
-
-          <span class="admin-module__status">
-            Próxima etapa
-          </span>
-
-        </article>
-
-        <article class="admin-module">
-
-          <div class="admin-module__icon">
-            📷
-          </div>
-
-          <h2>
-            Fotografia
-          </h2>
-
-          <p>
-            Carregar, recortar e substituir a fotografia.
-          </p>
-
-          <span class="admin-module__status">
-            Próxima etapa
-          </span>
-
-        </article>
-
-        <article class="admin-module">
-
-          <div class="admin-module__icon">
-            🎨
-          </div>
-
-          <h2>
-            Tema
-          </h2>
-
-          <p>
-            Escolher cores, brilho e efeitos de movimento.
-          </p>
-
-          <span class="admin-module__status">
-            Próxima etapa
-          </span>
-
-        </article>
-
-        <article class="admin-module">
-
-          <div class="admin-module__icon">
-            📊
-          </div>
-
-          <h2>
-            Estatísticas
-          </h2>
-
-          <p>
-            Consultar visitas e atividade do cartão.
-          </p>
-
-          <span class="admin-module__status">
-            Próxima etapa
-          </span>
-
-        </article>
+          <strong class="admin-online">
+            Publicado
+          </strong>
+        </div>
 
       </div>
+
+      <form
+        class="admin-editor"
+        id="profile-editor-form"
+      >
+
+        <section class="admin-editor-section">
+
+          <div class="admin-editor-heading">
+            <span>01</span>
+
+            <div>
+              <h2>Informação principal</h2>
+
+              <p>
+                Nome, profissão, localização e slogan.
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-editor-grid">
+
+            <label class="admin-editor-field admin-editor-field--wide">
+              <span>Nome</span>
+
+              <input
+                type="text"
+                id="profile-name-input"
+                maxlength="80"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Slogan — Português</span>
+
+              <input
+                type="text"
+                id="tagline-pt-input"
+                maxlength="120"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Slogan — Inglês</span>
+
+              <input
+                type="text"
+                id="tagline-en-input"
+                maxlength="120"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Profissão — Português</span>
+
+              <input
+                type="text"
+                id="job-pt-input"
+                maxlength="80"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Profissão — Inglês</span>
+
+              <input
+                type="text"
+                id="job-en-input"
+                maxlength="80"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Localização — Português</span>
+
+              <input
+                type="text"
+                id="location-pt-input"
+                maxlength="80"
+                required
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>Localização — Inglês</span>
+
+              <input
+                type="text"
+                id="location-en-input"
+                maxlength="80"
+                required
+              >
+            </label>
+
+          </div>
+
+        </section>
+
+        <section class="admin-editor-section">
+
+          <div class="admin-editor-heading">
+            <span>02</span>
+
+            <div>
+              <h2>Contactos e redes</h2>
+
+              <p>
+                Ligações apresentadas no cartão.
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-editor-grid">
+
+            <label class="admin-editor-field">
+              <span>Telefone</span>
+
+              <input
+                type="tel"
+                id="phone-input"
+                maxlength="30"
+              >
+            </label>
+
+            <label class="admin-editor-field">
+              <span>WhatsApp</span>
+
+              <input
+                type="tel"
+                id="whatsapp-input"
+                maxlength="30"
+              >
+            </label>
+
+            <label class="admin-editor-field admin-editor-field--wide">
+              <span>Email</span>
+
+              <input
+                type="email"
+                id="profile-email-input"
+                maxlength="160"
+              >
+            </label>
+
+            <label class="admin-editor-field admin-editor-field--wide">
+              <span>Instagram</span>
+
+              <input
+                type="url"
+                id="instagram-input"
+                placeholder="https://instagram.com/..."
+              >
+            </label>
+
+            <label class="admin-editor-field admin-editor-field--wide">
+              <span>Steam</span>
+
+              <input
+                type="url"
+                id="steam-input"
+                placeholder="https://steamcommunity.com/..."
+              >
+            </label>
+
+          </div>
+
+        </section>
+
+        <section class="admin-editor-section">
+
+          <div class="admin-editor-heading">
+            <span>03</span>
+
+            <div>
+              <h2>Fotografia</h2>
+
+              <p>
+                O carregamento de uma nova fotografia será adicionado na próxima etapa.
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-photo-preview">
+
+            <img
+              id="admin-photo-preview"
+              src="./assets/images/profile.jpg"
+              alt="Pré-visualização da fotografia"
+            >
+
+            <div>
+              <strong>
+                Fotografia atual
+              </strong>
+
+              <p>
+                Na próxima Sprint vais poder selecionar, recortar e guardar uma nova imagem.
+              </p>
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="admin-editor-section">
+
+          <div class="admin-editor-heading">
+            <span>04</span>
+
+            <div>
+              <h2>Tema</h2>
+
+              <p>
+                Escolhe um tema ou cria uma combinação personalizada.
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-theme-layout">
+
+            <div class="admin-editor-grid">
+
+              <label class="admin-editor-field admin-editor-field--wide">
+                <span>Tema predefinido</span>
+
+                <select id="theme-name-input">
+                  <option value="nebula-carbon">
+                    Nebula Carbon
+                  </option>
+
+                  <option value="ocean-pulse">
+                    Ocean Pulse
+                  </option>
+
+                  <option value="cyber-purple">
+                    Cyber Purple
+                  </option>
+
+                  <option value="emerald-night">
+                    Emerald Night
+                  </option>
+
+                  <option value="sunset-gold">
+                    Sunset Gold
+                  </option>
+
+                  <option value="custom">
+                    Personalizado
+                  </option>
+                </select>
+              </label>
+
+              <label class="admin-colour-field">
+                <span>Cor principal</span>
+
+                <input
+                  type="color"
+                  id="primary-color-input"
+                  value="#7657ff"
+                >
+              </label>
+
+              <label class="admin-colour-field">
+                <span>Cor secundária</span>
+
+                <input
+                  type="color"
+                  id="secondary-color-input"
+                  value="#00cfee"
+                >
+              </label>
+
+              <label class="admin-colour-field">
+                <span>Cor de fundo</span>
+
+                <input
+                  type="color"
+                  id="background-color-input"
+                  value="#05070a"
+                >
+              </label>
+
+              <label class="admin-range-field">
+                <span>
+                  Intensidade do brilho:
+                  <strong id="glow-value-output">
+                    75%
+                  </strong>
+                </span>
+
+                <input
+                  type="range"
+                  id="glow-intensity-input"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value="0.75"
+                >
+              </label>
+
+              <label class="admin-switch">
+                <input
+                  type="checkbox"
+                  id="motion-enabled-input"
+                  checked
+                >
+
+                <span class="admin-switch__control"></span>
+
+                <span>
+                  Ativar movimento 3D
+                </span>
+              </label>
+
+            </div>
+
+            <div
+              class="admin-theme-preview"
+              id="theme-preview"
+            >
+
+              <div class="admin-theme-preview__avatar"></div>
+
+              <strong id="preview-name">
+                Hugo Rodrigues
+              </strong>
+
+              <span id="preview-tagline">
+                One Tap. Infinite Connections.
+              </span>
+
+              <div class="admin-theme-preview__button">
+                Guardar contacto
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <div class="admin-editor-actions">
+
+          <p
+            class="admin-editor-message"
+            id="profile-editor-message"
+            role="status"
+            hidden
+          ></p>
+
+          <button
+            class="admin-button admin-button--primary admin-save-button"
+            id="profile-save-button"
+            type="submit"
+          >
+            <span id="profile-save-text">
+              Guardar alterações
+            </span>
+
+            <span
+              class="admin-spinner"
+              id="profile-save-spinner"
+              hidden
+            ></span>
+          </button>
+
+        </div>
+
+      </form>
 
     </section>
 
@@ -306,6 +627,11 @@
   <script
     type="module"
     src="./js/admin-auth.js"
+  ></script>
+
+  <script
+    type="module"
+    src="./js/admin-editor.js"
   ></script>
 
 </body>
