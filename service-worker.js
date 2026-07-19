@@ -1,5 +1,5 @@
 const CACHE_VERSION =
-  "identityhub-pro-v17";
+  "identityhub-pro-v19";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
@@ -52,6 +52,7 @@ const APP_SHELL = [
   "./js/supabase-config.js",
 "./js/supabase-client.js",
 "./js/visits.js",
+"./js/admin-photo.js",
 ];
 
 /*

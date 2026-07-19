@@ -19,14 +19,21 @@
     content="noindex, nofollow"
   >
 
+  <meta
+    name="description"
+    content="Área de administração do IdentityHub Pro."
+  >
+
   <title>Administração | IdentityHub Pro</title>
 
+  <!-- Favicon -->
   <link
     rel="icon"
     type="image/svg+xml"
     href="./favicon.svg"
   >
 
+  <!-- Google Fonts -->
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -43,11 +50,19 @@
     rel="stylesheet"
   >
 
+  <!-- CSS principal da administração -->
   <link
     rel="stylesheet"
     href="./css/admin.css"
   >
 
+  <!-- CSS do Cropper -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css"
+  >
+
+  <!-- CSS do editor -->
   <link
     rel="stylesheet"
     href="./css/admin-editor.css"
@@ -56,6 +71,7 @@
 
 <body>
 
+  <!-- Fundo decorativo -->
   <div
     class="admin-background"
     aria-hidden="true"
@@ -63,7 +79,10 @@
 
   <main class="admin-shell">
 
-    <!-- LOGIN -->
+    <!-- ==================================================
+         LOGIN
+    ================================================== -->
+
     <section
       class="admin-auth"
       id="login-panel"
@@ -110,17 +129,22 @@
       >
 
         <label class="admin-field">
+
           <span>Email</span>
 
           <input
             type="email"
             id="admin-email"
+            name="email"
             autocomplete="email"
+            placeholder="email@exemplo.pt"
             required
           >
+
         </label>
 
         <label class="admin-field">
+
           <span>Palavra-passe</span>
 
           <div class="admin-password">
@@ -128,7 +152,9 @@
             <input
               type="password"
               id="admin-password"
+              name="password"
               autocomplete="current-password"
+              placeholder="••••••••••••"
               minlength="8"
               required
             >
@@ -137,11 +163,13 @@
               class="admin-password__toggle"
               id="toggle-password"
               type="button"
+              aria-label="Mostrar palavra-passe"
             >
               Mostrar
             </button>
 
           </div>
+
         </label>
 
         <button
@@ -149,6 +177,7 @@
           id="login-button"
           type="submit"
         >
+
           <span id="login-button-text">
             Entrar
           </span>
@@ -157,7 +186,9 @@
             class="admin-spinner"
             id="login-spinner"
             hidden
+            aria-hidden="true"
           ></span>
+
         </button>
 
         <p
@@ -178,16 +209,22 @@
 
     </section>
 
-    <!-- DASHBOARD -->
+    <!-- ==================================================
+         PAINEL DE ADMINISTRAÇÃO
+    ================================================== -->
+
     <section
       class="admin-dashboard"
       id="dashboard-panel"
       hidden
     >
 
+      <!-- Cabeçalho -->
+
       <header class="admin-header">
 
         <div>
+
           <span class="admin-brand__eyebrow">
             IdentityHub Pro
           </span>
@@ -197,6 +234,7 @@
           </h1>
 
           <p id="admin-user-email"></p>
+
         </div>
 
         <div class="admin-header__actions">
@@ -222,49 +260,78 @@
 
       </header>
 
+      <!-- Resumo -->
+
       <div class="admin-summary">
 
         <div class="admin-summary__item">
-          <span>Total de visitas</span>
+
+          <span>
+            Total de visitas
+          </span>
 
           <strong id="admin-total-visits">
             —
           </strong>
+
         </div>
 
         <div class="admin-summary__item">
-          <span>Estado</span>
+
+          <span>
+            Estado
+          </span>
 
           <strong class="admin-online">
             Publicado
           </strong>
+
         </div>
 
       </div>
+
+      <!-- ==================================================
+           EDITOR DO PERFIL
+      ================================================== -->
 
       <form
         class="admin-editor"
         id="profile-editor-form"
       >
 
+        <!-- 01 — Informação principal -->
+
         <section class="admin-editor-section">
 
           <div class="admin-editor-heading">
-            <span>01</span>
+
+            <span>
+              01
+            </span>
 
             <div>
-              <h2>Informação principal</h2>
+
+              <h2>
+                Informação principal
+              </h2>
 
               <p>
                 Nome, profissão, localização e slogan.
               </p>
+
             </div>
+
           </div>
 
           <div class="admin-editor-grid">
 
-            <label class="admin-editor-field admin-editor-field--wide">
-              <span>Nome</span>
+            <label
+              class="admin-editor-field admin-editor-field--wide"
+            >
+
+              <span>
+                Nome
+              </span>
 
               <input
                 type="text"
@@ -272,10 +339,14 @@
                 maxlength="80"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Slogan — Português</span>
+
+              <span>
+                Slogan — Português
+              </span>
 
               <input
                 type="text"
@@ -283,10 +354,14 @@
                 maxlength="120"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Slogan — Inglês</span>
+
+              <span>
+                Slogan — Inglês
+              </span>
 
               <input
                 type="text"
@@ -294,10 +369,14 @@
                 maxlength="120"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Profissão — Português</span>
+
+              <span>
+                Profissão — Português
+              </span>
 
               <input
                 type="text"
@@ -305,10 +384,14 @@
                 maxlength="80"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Profissão — Inglês</span>
+
+              <span>
+                Profissão — Inglês
+              </span>
 
               <input
                 type="text"
@@ -316,10 +399,14 @@
                 maxlength="80"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Localização — Português</span>
+
+              <span>
+                Localização — Português
+              </span>
 
               <input
                 type="text"
@@ -327,10 +414,14 @@
                 maxlength="80"
                 required
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>Localização — Inglês</span>
+
+              <span>
+                Localização — Inglês
+              </span>
 
               <input
                 type="text"
@@ -338,140 +429,239 @@
                 maxlength="80"
                 required
               >
+
             </label>
 
           </div>
 
         </section>
 
+        <!-- 02 — Contactos e redes -->
+
         <section class="admin-editor-section">
 
           <div class="admin-editor-heading">
-            <span>02</span>
+
+            <span>
+              02
+            </span>
 
             <div>
-              <h2>Contactos e redes</h2>
+
+              <h2>
+                Contactos e redes
+              </h2>
 
               <p>
-                Ligações apresentadas no cartão.
+                Ligações apresentadas no cartão digital.
               </p>
+
             </div>
+
           </div>
 
           <div class="admin-editor-grid">
 
             <label class="admin-editor-field">
-              <span>Telefone</span>
+
+              <span>
+                Telefone
+              </span>
 
               <input
                 type="tel"
                 id="phone-input"
                 maxlength="30"
               >
+
             </label>
 
             <label class="admin-editor-field">
-              <span>WhatsApp</span>
+
+              <span>
+                WhatsApp
+              </span>
 
               <input
                 type="tel"
                 id="whatsapp-input"
                 maxlength="30"
               >
+
             </label>
 
-            <label class="admin-editor-field admin-editor-field--wide">
-              <span>Email</span>
+            <label
+              class="admin-editor-field admin-editor-field--wide"
+            >
+
+              <span>
+                Email
+              </span>
 
               <input
                 type="email"
                 id="profile-email-input"
                 maxlength="160"
               >
+
             </label>
 
-            <label class="admin-editor-field admin-editor-field--wide">
-              <span>Instagram</span>
+            <label
+              class="admin-editor-field admin-editor-field--wide"
+            >
+
+              <span>
+                Instagram
+              </span>
 
               <input
                 type="url"
                 id="instagram-input"
                 placeholder="https://instagram.com/..."
               >
+
             </label>
 
-            <label class="admin-editor-field admin-editor-field--wide">
-              <span>Steam</span>
+            <label
+              class="admin-editor-field admin-editor-field--wide"
+            >
+
+              <span>
+                Steam
+              </span>
 
               <input
                 type="url"
                 id="steam-input"
                 placeholder="https://steamcommunity.com/..."
               >
+
             </label>
 
           </div>
 
         </section>
 
+        <!-- 03 — Fotografia -->
+
         <section class="admin-editor-section">
 
           <div class="admin-editor-heading">
-            <span>03</span>
+
+            <span>
+              03
+            </span>
 
             <div>
-              <h2>Fotografia</h2>
+
+              <h2>
+                Fotografia
+              </h2>
 
               <p>
-                O carregamento de uma nova fotografia será adicionado na próxima etapa.
+                Seleciona, ajusta e guarda uma nova fotografia de perfil.
               </p>
+
             </div>
+
           </div>
 
-          <div class="admin-photo-preview">
+          <div class="admin-photo-manager">
 
-            <img
-              id="admin-photo-preview"
-              src="./assets/images/profile.jpg"
-              alt="Pré-visualização da fotografia"
-            >
+            <div class="admin-photo-preview">
 
-            <div>
-              <strong>
-                Fotografia atual
-              </strong>
+              <img
+                id="admin-photo-preview"
+                src="./assets/images/profile.jpg"
+                alt="Pré-visualização da fotografia"
+              >
 
-              <p>
-                Na próxima Sprint vais poder selecionar, recortar e guardar uma nova imagem.
-              </p>
+              <div>
+
+                <strong>
+                  Fotografia atual
+                </strong>
+
+                <p>
+                  A imagem será recortada em formato quadrado e otimizada automaticamente.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="admin-photo-actions">
+
+              <input
+                type="file"
+                id="photo-file-input"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+              >
+
+              <button
+                class="admin-button admin-button--secondary"
+                id="select-photo-button"
+                type="button"
+              >
+                Selecionar nova fotografia
+              </button>
+
+              <small>
+                Formatos permitidos: JPG, PNG ou WebP. Máximo de 12 MB antes do recorte.
+              </small>
+
+              <p
+                class="admin-photo-message"
+                id="photo-upload-message"
+                role="status"
+                hidden
+              ></p>
+
             </div>
 
           </div>
 
         </section>
 
+        <!-- 04 — Tema -->
+
         <section class="admin-editor-section">
 
           <div class="admin-editor-heading">
-            <span>04</span>
+
+            <span>
+              04
+            </span>
 
             <div>
-              <h2>Tema</h2>
+
+              <h2>
+                Tema
+              </h2>
 
               <p>
                 Escolhe um tema ou cria uma combinação personalizada.
               </p>
+
             </div>
+
           </div>
 
           <div class="admin-theme-layout">
 
             <div class="admin-editor-grid">
 
-              <label class="admin-editor-field admin-editor-field--wide">
-                <span>Tema predefinido</span>
+              <label
+                class="admin-editor-field admin-editor-field--wide"
+              >
+
+                <span>
+                  Tema predefinido
+                </span>
 
                 <select id="theme-name-input">
+
                   <option value="nebula-carbon">
                     Nebula Carbon
                   </option>
@@ -495,42 +685,58 @@
                   <option value="custom">
                     Personalizado
                   </option>
+
                 </select>
+
               </label>
 
               <label class="admin-colour-field">
-                <span>Cor principal</span>
+
+                <span>
+                  Cor principal
+                </span>
 
                 <input
                   type="color"
                   id="primary-color-input"
                   value="#7657ff"
                 >
+
               </label>
 
               <label class="admin-colour-field">
-                <span>Cor secundária</span>
+
+                <span>
+                  Cor secundária
+                </span>
 
                 <input
                   type="color"
                   id="secondary-color-input"
                   value="#00cfee"
                 >
+
               </label>
 
               <label class="admin-colour-field">
-                <span>Cor de fundo</span>
+
+                <span>
+                  Cor de fundo
+                </span>
 
                 <input
                   type="color"
                   id="background-color-input"
                   value="#05070a"
                 >
+
               </label>
 
               <label class="admin-range-field">
+
                 <span>
                   Intensidade do brilho:
+
                   <strong id="glow-value-output">
                     75%
                   </strong>
@@ -544,30 +750,41 @@
                   step="0.05"
                   value="0.75"
                 >
+
               </label>
 
               <label class="admin-switch">
+
                 <input
                   type="checkbox"
                   id="motion-enabled-input"
                   checked
                 >
 
-                <span class="admin-switch__control"></span>
+                <span
+                  class="admin-switch__control"
+                  aria-hidden="true"
+                ></span>
 
                 <span>
                   Ativar movimento 3D
                 </span>
+
               </label>
 
             </div>
+
+            <!-- Pré-visualização do tema -->
 
             <div
               class="admin-theme-preview"
               id="theme-preview"
             >
 
-              <div class="admin-theme-preview__avatar"></div>
+              <div
+                class="admin-theme-preview__avatar"
+                aria-hidden="true"
+              ></div>
 
               <strong id="preview-name">
                 Hugo Rodrigues
@@ -587,6 +804,8 @@
 
         </section>
 
+        <!-- Guardar alterações -->
+
         <div class="admin-editor-actions">
 
           <p
@@ -601,6 +820,7 @@
             id="profile-save-button"
             type="submit"
           >
+
             <span id="profile-save-text">
               Guardar alterações
             </span>
@@ -609,7 +829,9 @@
               class="admin-spinner"
               id="profile-save-spinner"
               hidden
+              aria-hidden="true"
             ></span>
+
           </button>
 
         </div>
@@ -620,18 +842,162 @@
 
   </main>
 
+  <!-- ==================================================
+       JANELA DE RECORTE DA FOTOGRAFIA
+  ================================================== -->
+
+  <div
+    class="admin-photo-modal"
+    id="photo-crop-modal"
+    hidden
+  >
+
+    <div
+      class="admin-photo-modal__backdrop"
+      data-photo-close
+    ></div>
+
+    <section
+      class="admin-photo-modal__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="photo-crop-title"
+    >
+
+      <header class="admin-photo-modal__header">
+
+        <div>
+
+          <span class="admin-brand__eyebrow">
+            IdentityHub Pro
+          </span>
+
+          <h2 id="photo-crop-title">
+            Ajustar fotografia
+          </h2>
+
+          <p>
+            Arrasta a imagem e utiliza o zoom para escolher o enquadramento.
+          </p>
+
+        </div>
+
+        <button
+          class="admin-photo-modal__close"
+          type="button"
+          aria-label="Fechar"
+          data-photo-close
+        >
+          ×
+        </button>
+
+      </header>
+
+      <div class="admin-crop-stage">
+
+        <img
+          id="photo-crop-image"
+          alt="Fotografia selecionada para recorte"
+        >
+
+      </div>
+
+      <div class="admin-crop-tools">
+
+        <button
+          class="admin-crop-tool"
+          id="photo-rotate-left"
+          type="button"
+        >
+          ↶ Rodar
+        </button>
+
+        <button
+          class="admin-crop-tool"
+          id="photo-reset-crop"
+          type="button"
+        >
+          Repor
+        </button>
+
+        <button
+          class="admin-crop-tool"
+          id="photo-rotate-right"
+          type="button"
+        >
+          Rodar ↷
+        </button>
+
+      </div>
+
+      <p
+        class="admin-photo-modal__message"
+        id="photo-crop-message"
+        role="alert"
+        hidden
+      ></p>
+
+      <footer class="admin-crop-actions">
+
+        <button
+          class="admin-button admin-button--secondary"
+          type="button"
+          data-photo-close
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="admin-button admin-button--primary"
+          id="save-photo-button"
+          type="button"
+        >
+
+          <span id="save-photo-text">
+            Guardar fotografia
+          </span>
+
+          <span
+            class="admin-spinner"
+            id="save-photo-spinner"
+            hidden
+            aria-hidden="true"
+          ></span>
+
+        </button>
+
+      </footer>
+
+    </section>
+
+  </div>
+
+  <!-- Biblioteca Supabase -->
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
+  <!-- Biblioteca para recortar fotografias -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"
+  ></script>
+
+  <!-- Autenticação -->
   <script
     type="module"
     src="./js/admin-auth.js"
   ></script>
 
+  <!-- Editor do perfil e tema -->
   <script
     type="module"
     src="./js/admin-editor.js"
+  ></script>
+
+  <!-- Gestor da fotografia -->
+  <script
+    type="module"
+    src="./js/admin-photo.js"
   ></script>
 
 </body>
