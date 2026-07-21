@@ -1,42 +1,96 @@
-import { t } from "./i18n.js";
+import {
+  t
+} from "./i18n.js";
 
-const icons = {
+/* ==================================================
+   ÍCONES
+================================================== */
+
+const ACTION_ICONS = {
   phone: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       <path
-        d="M7.2 3.5 9.4 8a1.5 1.5 0 0 1-.35 1.75l-1.2 1.2a14.2 14.2 0 0 0 5.2 5.2l1.2-1.2A1.5 1.5 0 0 1 16 14.6l4.5 2.2a1.5 1.5 0 0 1 .8 1.65A3.2 3.2 0 0 1 18.1 21C9.75 21 3 14.25 3 5.9a3.2 3.2 0 0 1 2.55-3.2 1.5 1.5 0 0 1 1.65.8Z"
+        d="M22 16.92v3a2 2 0 0 1-2.18 2
+        19.79 19.79 0 0 1-8.63-3.07
+        19.5 19.5 0 0 1-6-6
+        19.79 19.79 0 0 1-3.07-8.67
+        A2 2 0 0 1 4.11 2h3
+        a2 2 0 0 1 2 1.72
+        12.84 12.84 0 0 0 .7 2.81
+        2 2 0 0 1-.45 2.11L8.09 9.91
+        a16 16 0 0 0 6 6l1.27-1.27
+        a2 2 0 0 1 2.11-.45
+        12.84 12.84 0 0 0 2.81.7
+        A2 2 0 0 1 22 16.92z"
       ></path>
     </svg>
   `,
 
   whatsapp: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       <path
-        d="M20.5 11.6a8.4 8.4 0 0 1-12.45 7.35L3 20.3l1.35-4.9A8.4 8.4 0 1 1 20.5 11.6Z"
+        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8
+        8.5 8.5 0 0 1-7.6 4.7
+        8.38 8.38 0 0 1-3.8-.9
+        L3 21l1.9-5.7
+        a8.38 8.38 0 0 1-.9-3.8
+        8.5 8.5 0 0 1 4.7-7.6
+        8.38 8.38 0 0 1 3.8-.9h.5
+        a8.48 8.48 0 0 1 8 8z"
       ></path>
 
       <path
-        d="M8.3 7.7c.25-.55.5-.55.75-.55h.65c.2 0 .4.05.55.4l.8 1.9c.1.25.05.45-.1.65l-.6.75c-.15.2-.3.35-.1.65.65 1.1 1.55 2 2.65 2.65.3.2.5.05.7-.15l.8-.95c.2-.25.45-.3.7-.2l1.85.85c.3.15.5.25.55.45.1.45-.05 1.4-.7 2-.6.55-1.45.8-2.25.65-1.35-.25-3.1-1-4.75-2.45-1.4-1.25-2.45-2.8-2.8-4.15-.25-.95-.05-1.8.5-2.5Z"
+        d="M9.3 8.4c.2-.4.4-.4.7-.4h.5
+        c.2 0 .4.1.5.4l.8 1.8
+        c.1.3.1.5-.1.7l-.6.8
+        c-.2.2-.2.4-.1.6
+        .6 1.2 1.6 2.2 2.8 2.8
+        .2.1.4.1.6-.1l.9-1.1
+        c.2-.2.4-.3.7-.2l1.8.9
+        c.3.1.4.3.4.5
+        0 .5-.2 1.3-.6 1.7
+        -.5.5-1.3.8-2.1.8
+        -1.2 0-2.8-.6-4.3-1.8
+        -1.8-1.4-3-3.3-3.3-4.7
+        -.2-1 .1-1.9.6-2.7z"
       ></path>
     </svg>
   `,
 
   email: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       <rect
         x="3"
         y="5"
         width="18"
         height="14"
-        rx="3"
+        rx="2"
       ></rect>
 
-      <path d="m4.5 7 7.5 6 7.5-6"></path>
+      <path
+        d="m3 7 9 6 9-6"
+      ></path>
     </svg>
   `,
 
   instagram: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       <rect
         x="3"
         y="3"
@@ -55,13 +109,17 @@ const icons = {
         cx="17.5"
         cy="6.5"
         r="1"
-        class="icon-fill"
+        class="contact-action__icon-dot"
       ></circle>
     </svg>
   `,
 
   steam: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
       <circle
         cx="15.5"
         cy="8.5"
@@ -69,54 +127,180 @@ const icons = {
       ></circle>
 
       <circle
-        cx="6.5"
+        cx="15.5"
+        cy="8.5"
+        r="1.5"
+      ></circle>
+
+      <circle
+        cx="7"
         cy="16.5"
         r="2.5"
       ></circle>
 
-      <path d="m8.7 15.4 3.9-3.7"></path>
-      <path d="M3.5 14.8l1.2.7"></path>
+      <path
+        d="m9.1 15.2 4.1-3.4"
+      ></path>
+
+      <path
+        d="m4.8 15.4-3.3-1.3"
+      ></path>
+
+      <path
+        d="m9 17.1 4.2 1.7
+        a4 4 0 0 0 5.1-2.3"
+      ></path>
     </svg>
   `
 };
 
-function sanitisePhoneNumber(number = "") {
-  return String(number).replace(
-    /[^\d+]/g,
-    ""
+/* ==================================================
+   TRADUÇÕES
+================================================== */
+
+function translate(
+  key,
+  fallback
+) {
+  try {
+    const result = t(key);
+
+    if (
+      typeof result !== "string" ||
+      result.trim() === "" ||
+      result === key
+    ) {
+      return fallback;
+    }
+
+    return result;
+  } catch {
+    return fallback;
+  }
+}
+
+/* ==================================================
+   TRATAMENTO DOS DADOS
+================================================== */
+
+function normaliseText(value) {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function isActionVisible(
+  profile,
+  key
+) {
+  const value =
+    profile[
+      `${key}_visible`
+    ];
+
+  return (
+    value !== false &&
+    value !== "false" &&
+    value !== 0 &&
+    value !== "0"
   );
 }
 
-function getProfileHandle(url = "") {
-  return String(url)
-    .replace(/\/$/, "")
-    .split("/")
-    .pop();
+function normaliseWhatsApp(value) {
+  return normaliseText(value)
+    .replace(/\D/g, "");
 }
 
-function createAction({
-  key,
-  label,
-  value,
-  href,
-  external = false
-}) {
-  const action =
+function normaliseInstagramUrl(value) {
+  const instagram =
+    normaliseText(value);
+
+  if (!instagram) {
+    return "";
+  }
+
+  if (
+    /^https?:\/\//i.test(
+      instagram
+    )
+  ) {
+    return instagram;
+  }
+
+  const username =
+    instagram
+      .replace(/^@/, "")
+      .replace(
+        /^(www\.)?instagram\.com\//i,
+        ""
+      )
+      .replace(/\/+$/, "");
+
+  return username
+    ? `https://www.instagram.com/${username}/`
+    : "";
+}
+
+function normaliseSteamUrl(value) {
+  const steam =
+    normaliseText(value);
+
+  if (!steam) {
+    return "";
+  }
+
+  if (
+    /^https?:\/\//i.test(
+      steam
+    )
+  ) {
+    return steam;
+  }
+
+  const steamId =
+    steam
+      .replace(/^@/, "")
+      .replace(/\/+$/, "");
+
+  return steamId
+    ? `https://steamcommunity.com/id/${steamId}/`
+    : "";
+}
+
+/* ==================================================
+   CRIAÇÃO DE CADA ÍCONE
+================================================== */
+
+function createAction(action) {
+  const link =
     document.createElement("a");
 
-  action.className =
-    `contact-action contact-action--${key}`;
+  link.className =
+    `contact-action contact-action--${action.key}`;
 
-  action.href = href;
+  link.dataset.action =
+    action.key;
 
-  action.setAttribute(
+  link.dataset.tooltip =
+    action.label;
+
+  link.href =
+    action.href;
+
+  link.title =
+    action.label;
+
+  link.setAttribute(
     "aria-label",
-    label
+    action.label
   );
 
-  if (external) {
-    action.target = "_blank";
-    action.rel = "noopener noreferrer";
+  if (action.external) {
+    link.target =
+      "_blank";
+
+    link.rel =
+      "noopener noreferrer";
   }
 
   const icon =
@@ -125,130 +309,237 @@ function createAction({
   icon.className =
     "contact-action__icon";
 
-  icon.innerHTML = icons[key];
-
-  const tooltip =
-    document.createElement("span");
-
-  tooltip.className =
-    "contact-action__tooltip";
-
-  const tooltipTitle =
-    document.createElement("strong");
-
-  tooltipTitle.textContent = label;
-
-  const tooltipValue =
-    document.createElement("small");
-
-  tooltipValue.textContent = value;
-
-  tooltip.append(
-    tooltipTitle,
-    tooltipValue
+  icon.setAttribute(
+    "aria-hidden",
+    "true"
   );
 
-  action.append(
-    icon,
-    tooltip
-  );
+  icon.innerHTML =
+    ACTION_ICONS[action.key] || "";
 
-  action.addEventListener(
-    "click",
-    () => {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(25);
-      }
-    }
-  );
+  link.appendChild(icon);
 
-  return action;
+  return link;
 }
 
-export function renderContactActions(profile) {
+/* ==================================================
+   RENDERIZAÇÃO
+================================================== */
+
+export function renderContactActions(
+  profile
+) {
   const container =
     document.querySelector(
       "#contact-actions"
+    ) ||
+    document.querySelector(
+      ".contact-actions"
+    ) ||
+    document.querySelector(
+      "[data-contact-actions]"
     );
 
   if (!container) {
-    throw new Error(
-      "O contentor #contact-actions não foi encontrado."
+    console.warn(
+      "O contentor dos contactos não foi encontrado."
     );
+
+    return;
+  }
+
+  if (!profile) {
+    container.replaceChildren();
+    container.hidden = true;
+
+    return;
   }
 
   const phone =
-    sanitisePhoneNumber(profile.phone);
+    normaliseText(
+      profile.phone
+    );
 
   const whatsapp =
-    sanitisePhoneNumber(profile.whatsapp);
+    normaliseWhatsApp(
+      profile.whatsapp
+    );
 
-  const firstName =
-    profile.name
-      ?.trim()
-      .split(/\s+/)[0] || "";
+  const email =
+    normaliseText(
+      profile.email
+    );
+
+  const instagram =
+    normaliseText(
+      profile.instagram
+    );
+
+  const steam =
+    normaliseText(
+      profile.steam
+    );
+
+  const instagramUrl =
+    normaliseInstagramUrl(
+      instagram
+    );
+
+  const steamUrl =
+    normaliseSteamUrl(
+      steam
+    );
 
   const whatsappMessage =
     encodeURIComponent(
-      t(
+      translate(
         "messages.whatsapp",
-        { firstName }
+        "Olá Hugo! Encontrei o teu cartão digital."
       )
     );
 
-  const instagramName =
-    getProfileHandle(profile.instagram);
-
-  const steamName =
-    getProfileHandle(profile.steam);
+  const emailSubject =
+    encodeURIComponent(
+      translate(
+        "messages.emailSubject",
+        "Contacto através do IdentityHub Pro"
+      )
+    );
 
   const actions = [
     {
       key: "phone",
-      label: t("actions.phone"),
-      value: profile.phone,
-      href: `tel:${phone}`
+
+      label:
+        translate(
+          "actions.phone",
+          "Telefonar"
+        ),
+
+      href:
+        phone
+          ? `tel:${phone}`
+          : "",
+
+      visible:
+        isActionVisible(
+          profile,
+          "phone"
+        ) &&
+        Boolean(phone)
     },
 
     {
       key: "whatsapp",
-      label: t("actions.whatsapp"),
-      value: profile.whatsapp,
+
+      label:
+        translate(
+          "actions.whatsapp",
+          "WhatsApp"
+        ),
+
       href:
-        `https://wa.me/${whatsapp.replace("+", "")}` +
-        `?text=${whatsappMessage}`,
-      external: true
+        whatsapp
+          ? `https://wa.me/${whatsapp}?text=${whatsappMessage}`
+          : "",
+
+      external: true,
+
+      visible:
+        isActionVisible(
+          profile,
+          "whatsapp"
+        ) &&
+        Boolean(whatsapp)
     },
 
     {
       key: "email",
-      label: t("actions.email"),
-      value: profile.email,
+
+      label:
+        translate(
+          "actions.email",
+          "Email"
+        ),
+
       href:
-        `mailto:${profile.email}` +
-        `?subject=${encodeURIComponent(
-          t("messages.emailSubject")
-        )}`
+        email
+          ? `mailto:${email}?subject=${emailSubject}`
+          : "",
+
+      visible:
+        isActionVisible(
+          profile,
+          "email"
+        ) &&
+        Boolean(email)
     },
 
     {
       key: "instagram",
-      label: t("actions.instagram"),
-      value: `@${instagramName}`,
-      href: profile.instagram,
-      external: true
+
+      label:
+        translate(
+          "actions.instagram",
+          "Instagram"
+        ),
+
+      href:
+        instagramUrl,
+
+      external: true,
+
+      visible:
+        isActionVisible(
+          profile,
+          "instagram"
+        ) &&
+        Boolean(instagramUrl)
     },
 
     {
       key: "steam",
-      label: t("actions.steam"),
-      value: steamName,
-      href: profile.steam,
-      external: true
+
+      label:
+        translate(
+          "actions.steam",
+          "Steam"
+        ),
+
+      href:
+        steamUrl,
+
+      external: true,
+
+      visible:
+        isActionVisible(
+          profile,
+          "steam"
+        ) &&
+        Boolean(steamUrl)
     }
   ];
 
+  const visibleActions =
+    actions.filter(
+      (action) =>
+        action.visible === true &&
+        Boolean(action.href)
+    );
+
   container.replaceChildren(
-    ...actions.map(createAction)
+    ...visibleActions.map(
+      createAction
+    )
+  );
+
+  container.hidden =
+    visibleActions.length === 0;
+
+  container.setAttribute(
+    "aria-hidden",
+    visibleActions.length === 0
+      ? "true"
+      : "false"
   );
 }
