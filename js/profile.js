@@ -8,6 +8,9 @@ const PROFILE_ID =
 const FALLBACK_PROFILE_URL =
   "./config/profile.json";
 
+/*
+ * Confirma que um valor contém texto válido.
+ */
 function validText(value) {
   return (
     typeof value === "string" &&
@@ -15,6 +18,9 @@ function validText(value) {
   );
 }
 
+/*
+ * Utiliza o valor recebido ou um valor alternativo.
+ */
 function textOrFallback(
   value,
   fallback = ""
@@ -24,6 +30,9 @@ function textOrFallback(
     : fallback;
 }
 
+/*
+ * Converte um valor numérico com segurança.
+ */
 function numberOrFallback(
   value,
   fallback
@@ -36,9 +45,28 @@ function numberOrFallback(
     : fallback;
 }
 
+/*
+ * Confirma valores booleanos vindos do Supabase.
+ */
+function booleanOrFallback(
+  value,
+  fallback = true
+) {
+  return typeof value === "boolean"
+    ? value
+    : fallback;
+}
+
+/*
+ * Carrega os dados locais do perfil.
+ * Estes dados são usados caso o Supabase fique
+ * temporariamente indisponível.
+ */
 async function loadFallbackProfile() {
   const response =
-    await fetch(FALLBACK_PROFILE_URL);
+    await fetch(
+      FALLBACK_PROFILE_URL
+    );
 
   if (!response.ok) {
     throw new Error(
@@ -49,6 +77,9 @@ async function loadFallbackProfile() {
   return response.json();
 }
 
+/*
+ * Carrega as configurações atuais da base de dados.
+ */
 async function loadDatabaseSettings() {
   const {
     data,
@@ -56,7 +87,10 @@ async function loadDatabaseSettings() {
   } = await supabaseClient
     .from("profile_settings")
     .select("*")
-    .eq("id", PROFILE_ID)
+    .eq(
+      "id",
+      PROFILE_ID
+    )
     .single();
 
   if (error) {
@@ -66,6 +100,10 @@ async function loadDatabaseSettings() {
   return data;
 }
 
+/*
+ * Junta os dados locais com os dados guardados
+ * através da área de administração.
+ */
 function mergeProfile(
   fallback,
   settings = {}
@@ -82,15 +120,29 @@ function mergeProfile(
     fallback.location ||
     "Portugal";
 
+  const fallbackPhoto =
+    fallback.photo_url ||
+    fallback.photo ||
+    fallback.avatar ||
+    "./assets/images/profile.jpg";
+
   return {
+    /*
+     * Mantém propriedades adicionais do profile.json,
+     * como website e outros dados já existentes.
+     */
     ...fallback,
 
     id: PROFILE_ID,
 
+    /*
+     * Informação principal
+     */
     name:
       textOrFallback(
         settings.name,
-        fallback.name
+        fallback.name ||
+          "Hugo Rodrigues"
       ),
 
     tagline_pt:
@@ -129,45 +181,53 @@ function mergeProfile(
         fallbackLocation
       ),
 
+    /*
+     * Contactos e redes sociais
+     */
     phone:
       textOrFallback(
         settings.phone,
-        fallback.phone
+        fallback.phone || ""
       ),
 
     whatsapp:
       textOrFallback(
         settings.whatsapp,
-        fallback.whatsapp
+        fallback.whatsapp ||
+        fallback.phone ||
+        ""
       ),
 
     email:
       textOrFallback(
         settings.email,
-        fallback.email
+        fallback.email || ""
       ),
 
     instagram:
       textOrFallback(
         settings.instagram,
-        fallback.instagram
+        fallback.instagram || ""
       ),
 
     steam:
       textOrFallback(
         settings.steam,
-        fallback.steam
+        fallback.steam || ""
       ),
 
+    /*
+     * Fotografia
+     */
     photo_url:
       textOrFallback(
         settings.photo_url,
-        fallback.photo_url ||
-          fallback.photo ||
-          fallback.avatar ||
-          "./assets/images/profile.jpg"
+        fallbackPhoto
       ),
 
+    /*
+     * Configurações do tema
+     */
     theme_name:
       textOrFallback(
         settings.theme_name,
@@ -199,13 +259,50 @@ function mergeProfile(
       ),
 
     motion_enabled:
-      typeof settings.motion_enabled ===
-      "boolean"
-        ? settings.motion_enabled
-        : true
+      booleanOrFallback(
+        settings.motion_enabled,
+        true
+      ),
+
+    /*
+     * Visibilidade individual dos contactos
+     */
+    phone_visible:
+      booleanOrFallback(
+        settings.phone_visible,
+        true
+      ),
+
+    whatsapp_visible:
+      booleanOrFallback(
+        settings.whatsapp_visible,
+        true
+      ),
+
+    email_visible:
+      booleanOrFallback(
+        settings.email_visible,
+        true
+      ),
+
+    instagram_visible:
+      booleanOrFallback(
+        settings.instagram_visible,
+        true
+      ),
+
+    steam_visible:
+      booleanOrFallback(
+        settings.steam_visible,
+        true
+      )
   };
 }
 
+/*
+ * Escolhe os textos portugueses ou ingleses
+ * conforme o idioma ativo.
+ */
 export function getLocalizedProfile(
   profile,
   language = "pt"
@@ -221,20 +318,29 @@ export function getLocalizedProfile(
     tagline:
       profile[
         `tagline_${selectedLanguage}`
-      ] || profile.tagline,
+      ] ||
+      profile.tagline ||
+      "One Tap. Infinite Connections.",
 
     job:
       profile[
         `job_${selectedLanguage}`
-      ] || profile.job,
+      ] ||
+      profile.job ||
+      "Store Manager",
 
     location:
       profile[
         `location_${selectedLanguage}`
-      ] || profile.location
+      ] ||
+      profile.location ||
+      "Portugal"
   };
 }
 
+/*
+ * Função principal utilizada pelo app.js.
+ */
 export async function loadProfile() {
   const fallbackProfile =
     await loadFallbackProfile();
@@ -249,7 +355,7 @@ export async function loadProfile() {
     );
   } catch (error) {
     console.warn(
-      "Foram utilizados os dados locais do perfil:",
+      "Foram utilizados os dados locais do perfil porque não foi possível carregar o Supabase:",
       error
     );
 
