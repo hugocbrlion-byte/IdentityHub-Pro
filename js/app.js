@@ -49,6 +49,11 @@ import {
   setupVisitCounter
 } from "./visits.js";
 
+const IS_ADMIN_PREVIEW =
+  new URLSearchParams(
+    window.location.search
+  ).get("preview") === "1";
+
 let activeProfile = null;
 
 function getCurrentProfile() {
@@ -95,34 +100,44 @@ function renderProfile() {
       "#profile-avatar"
     );
 
-  nameElement.textContent =
-    profile.name;
+  if (nameElement) {
+    nameElement.textContent =
+      profile.name;
+  }
 
-  taglineElement.textContent =
-    profile.tagline;
+  if (taglineElement) {
+    taglineElement.textContent =
+      profile.tagline;
+  }
 
-  jobElement.textContent =
-    profile.job;
+  if (jobElement) {
+    jobElement.textContent =
+      profile.job;
+  }
 
-  locationElement.textContent =
-    profile.location;
+  if (locationElement) {
+    locationElement.textContent =
+      profile.location;
+  }
 
-  avatarElement.src =
-    profile.photo_url;
+  if (avatarElement) {
+    avatarElement.src =
+      profile.photo_url;
 
-  avatarElement.alt =
-    `Fotografia de perfil de ${profile.name}`;
+    avatarElement.alt =
+      `Fotografia de perfil de ${profile.name}`;
 
-  avatarElement.addEventListener(
-    "error",
-    () => {
-      avatarElement.src =
-        "./assets/images/profile.jpg";
-    },
-    {
-      once: true
-    }
-  );
+    avatarElement.addEventListener(
+      "error",
+      () => {
+        avatarElement.src =
+          "./assets/images/profile.jpg";
+      },
+      {
+        once: true
+      }
+    );
+  }
 
   document.title =
     `${profile.name} | IdentityHub Pro`;
@@ -145,7 +160,10 @@ function setupProfileButtons() {
       "#share-button"
     );
 
-  if (!saveButton || !shareButton) {
+  if (
+    !saveButton ||
+    !shareButton
+  ) {
     return;
   }
 
@@ -183,15 +201,23 @@ function setupProfileButtons() {
 
       try {
         const result =
-          await shareProfile(profile);
+          await shareProfile(
+            profile
+          );
 
-        if (result.status === "shared") {
+        if (
+          result.status ===
+          "shared"
+        ) {
           showToast(
             t("toast.shared")
           );
         }
 
-        if (result.status === "copied") {
+        if (
+          result.status ===
+          "copied"
+        ) {
           showToast(
             t("toast.copied")
           );
@@ -231,6 +257,63 @@ function setupLanguageUpdates() {
   );
 }
 
+function setupAdminPreviewReceiver() {
+  if (!IS_ADMIN_PREVIEW) {
+    return;
+  }
+
+  document.documentElement.classList.add(
+    "admin-preview-mode"
+  );
+
+  window.addEventListener(
+    "message",
+    (event) => {
+      if (
+        event.origin !==
+        window.location.origin
+      ) {
+        return;
+      }
+
+      if (
+        event.data?.type !==
+        "identityhub:admin-preview"
+      ) {
+        return;
+      }
+
+      if (
+        !event.data.profile ||
+        typeof event.data.profile !==
+          "object"
+      ) {
+        return;
+      }
+
+      activeProfile = {
+        ...activeProfile,
+        ...event.data.profile
+      };
+
+      applyProfileTheme(
+        activeProfile
+      );
+
+      renderProfile();
+
+      const profile =
+        getCurrentProfile();
+
+      if (profile) {
+        renderContactActions(
+          profile
+        );
+      }
+    }
+  );
+}
+
 async function start() {
   try {
     console.log(
@@ -261,13 +344,15 @@ async function start() {
 
     setupProfileButtons();
 
-    await setupVisitCounter();
+    if (!IS_ADMIN_PREVIEW) {
+      await setupVisitCounter();
 
-    if (
-      activeProfile.motion_enabled !==
-      false
-    ) {
-      setupMotionEffects();
+      if (
+        activeProfile.motion_enabled !==
+        false
+      ) {
+        setupMotionEffects();
+      }
     }
 
     console.log(
@@ -282,7 +367,11 @@ async function start() {
   }
 }
 
-registerServiceWorker();
-setupInstallButton();
+if (!IS_ADMIN_PREVIEW) {
+  registerServiceWorker();
+  setupInstallButton();
+}
+
 setupLanguageUpdates();
+setupAdminPreviewReceiver();
 start();

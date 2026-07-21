@@ -441,6 +441,19 @@ async function handleSavePhoto() {
       uploadMessage,
       "Fotografia atualizada com sucesso."
     );
+
+    window.dispatchEvent(
+  new CustomEvent(
+    "identityhub:adminsaved",
+    {
+      detail: {
+        message:
+          "Fotografia atualizada com sucesso."
+      }
+    }
+  )
+);
+
   } catch (error) {
     console.error(
       "Não foi possível guardar a fotografia:",

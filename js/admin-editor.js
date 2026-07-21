@@ -604,8 +604,20 @@ async function handleSave(event) {
     currentSettings = data;
 
     showMessage(
-      "Alterações guardadas. Atualiza o cartão para veres o resultado."
-    );
+  "Alterações guardadas com sucesso."
+);
+
+window.dispatchEvent(
+  new CustomEvent(
+    "identityhub:adminsaved",
+    {
+      detail: {
+        message:
+          "Perfil e tema atualizados com sucesso."
+      }
+    }
+  )
+);
   } catch (error) {
     console.error(
       "Não foi possível guardar o perfil:",
