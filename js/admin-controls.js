@@ -268,7 +268,7 @@ function createHistorySection() {
             </h2>
 
             <p>
-              Registo das últimas alterações feitas ao perfil.
+              Consulta ou restaura uma versão anterior do perfil.
             </p>
           </div>
 
@@ -307,8 +307,21 @@ function createControls() {
 }
 
 /* ==================================================
-   VISIBILIDADE DOS CONTACTOS
+   FUNÇÕES PARTILHADAS
 ================================================== */
+
+function dispatchSaved(message) {
+  window.dispatchEvent(
+    new CustomEvent(
+      "identityhub:adminsaved",
+      {
+        detail: {
+          message
+        }
+      }
+    )
+  );
+}
 
 function getVisibilityFields() {
   return {
@@ -379,28 +392,15 @@ function hideControlMessage() {
   delete element.dataset.type;
 }
 
-function dispatchSaved(message) {
-  window.dispatchEvent(
-    new CustomEvent(
-      "identityhub:adminsaved",
-      {
-        detail: {
-          message
-        }
-      }
-    )
-  );
-}
+/* ==================================================
+   VISIBILIDADE
+================================================== */
 
 async function loadVisibility() {
   const fields =
     getVisibilityFields();
 
   if (!visibilityFieldsExist(fields)) {
-    console.warn(
-      "Os controlos de visibilidade não foram encontrados."
-    );
-
     return;
   }
 
@@ -471,7 +471,8 @@ async function saveVisibility() {
   hideControlMessage();
 
   button.disabled = true;
-  button.textContent = "A guardar…";
+  button.textContent =
+    "A guardar…";
 
   try {
     const {
@@ -552,7 +553,7 @@ async function saveVisibility() {
 }
 
 /* ==================================================
-   RESTAURO DO TEMA
+   RESTAURO DO TEMA ORIGINAL
 ================================================== */
 
 function updateThemeForm() {
@@ -603,16 +604,43 @@ function updateThemeForm() {
   if (primary) {
     primary.value =
       DEFAULT_THEME.primary_color;
+
+    primary.dispatchEvent(
+      new Event(
+        "input",
+        {
+          bubbles: true
+        }
+      )
+    );
   }
 
   if (secondary) {
     secondary.value =
       DEFAULT_THEME.secondary_color;
+
+    secondary.dispatchEvent(
+      new Event(
+        "input",
+        {
+          bubbles: true
+        }
+      )
+    );
   }
 
   if (background) {
     background.value =
       DEFAULT_THEME.background_color;
+
+    background.dispatchEvent(
+      new Event(
+        "input",
+        {
+          bubbles: true
+        }
+      )
+    );
   }
 
   if (glow) {
@@ -634,6 +662,15 @@ function updateThemeForm() {
   if (motion) {
     motion.checked =
       DEFAULT_THEME.motion_enabled;
+
+    motion.dispatchEvent(
+      new Event(
+        "change",
+        {
+          bubbles: true
+        }
+      )
+    );
   }
 }
 
@@ -657,7 +694,8 @@ async function resetTheme() {
   }
 
   button.disabled = true;
-  button.textContent = "A restaurar…";
+  button.textContent =
+    "A restaurar…";
 
   try {
     const {
@@ -701,7 +739,194 @@ async function resetTheme() {
 }
 
 /* ==================================================
-   HISTÓRICO DE ALTERAÇÕES
+   APLICAR PERFIL RESTAURADO AO FORMULÁRIO
+================================================== */
+
+function setInputValue(
+  selector,
+  value
+) {
+  const element =
+    document.querySelector(
+      selector
+    );
+
+  if (
+    !element ||
+    value === undefined ||
+    value === null
+  ) {
+    return;
+  }
+
+  element.value =
+    String(value);
+
+  element.dispatchEvent(
+    new Event(
+      "input",
+      {
+        bubbles: true
+      }
+    )
+  );
+
+  element.dispatchEvent(
+    new Event(
+      "change",
+      {
+        bubbles: true
+      }
+    )
+  );
+}
+
+function setCheckboxValue(
+  selector,
+  value
+) {
+  const element =
+    document.querySelector(
+      selector
+    );
+
+  if (!element) {
+    return;
+  }
+
+  element.checked =
+    value !== false;
+
+  element.dispatchEvent(
+    new Event(
+      "change",
+      {
+        bubbles: true
+      }
+    )
+  );
+}
+
+function applyRestoredProfile(
+  profile
+) {
+  if (
+    !profile ||
+    typeof profile !== "object"
+  ) {
+    return;
+  }
+
+  const inputFields = {
+    "#profile-name-input":
+      profile.name,
+
+    "#tagline-pt-input":
+      profile.tagline_pt,
+
+    "#tagline-en-input":
+      profile.tagline_en,
+
+    "#job-pt-input":
+      profile.job_pt,
+
+    "#job-en-input":
+      profile.job_en,
+
+    "#location-pt-input":
+      profile.location_pt,
+
+    "#location-en-input":
+      profile.location_en,
+
+    "#phone-input":
+      profile.phone,
+
+    "#whatsapp-input":
+      profile.whatsapp,
+
+    "#profile-email-input":
+      profile.email,
+
+    "#instagram-input":
+      profile.instagram,
+
+    "#steam-input":
+      profile.steam,
+
+    "#theme-name-input":
+      profile.theme_name,
+
+    "#primary-color-input":
+      profile.primary_color,
+
+    "#secondary-color-input":
+      profile.secondary_color,
+
+    "#background-color-input":
+      profile.background_color,
+
+    "#glow-intensity-input":
+      profile.glow_intensity
+  };
+
+  Object.entries(
+    inputFields
+  ).forEach(
+    ([selector, value]) => {
+      setInputValue(
+        selector,
+        value
+      );
+    }
+  );
+
+  setCheckboxValue(
+    "#motion-enabled-input",
+    profile.motion_enabled
+  );
+
+  setCheckboxValue(
+    "#phone-visible-input",
+    profile.phone_visible
+  );
+
+  setCheckboxValue(
+    "#whatsapp-visible-input",
+    profile.whatsapp_visible
+  );
+
+  setCheckboxValue(
+    "#email-visible-input",
+    profile.email_visible
+  );
+
+  setCheckboxValue(
+    "#instagram-visible-input",
+    profile.instagram_visible
+  );
+
+  setCheckboxValue(
+    "#steam-visible-input",
+    profile.steam_visible
+  );
+
+  const photo =
+    document.querySelector(
+      "#admin-photo-preview"
+    );
+
+  if (
+    photo &&
+    profile.photo_url
+  ) {
+    photo.src =
+      profile.photo_url;
+  }
+}
+
+/* ==================================================
+   HISTÓRICO
 ================================================== */
 
 function translateField(field) {
@@ -733,6 +958,103 @@ function formatHistoryDate(value) {
       timeStyle: "short"
     }
   ).format(date);
+}
+
+async function restoreHistoryVersion(
+  historyId,
+  button
+) {
+  const numericHistoryId =
+    Number(historyId);
+
+  if (
+    !Number.isInteger(
+      numericHistoryId
+    )
+  ) {
+    return;
+  }
+
+  const accepted =
+    window.confirm(
+      "Restaurar esta versão do perfil?\n\nO estado atual continuará guardado no histórico."
+    );
+
+  if (!accepted) {
+    return;
+  }
+
+  const originalText =
+    button.textContent;
+
+  button.disabled = true;
+  button.textContent =
+    "A restaurar…";
+
+  try {
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+      await supabaseClient.auth
+        .getSession();
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+    if (!sessionData.session) {
+      throw new Error(
+        "A sessão terminou. Inicia sessão novamente."
+      );
+    }
+
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "restore_profile_history",
+      {
+        p_history_id:
+          numericHistoryId
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    const restoredProfile =
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+    applyRestoredProfile(
+      restoredProfile
+    );
+
+    await loadVisibility();
+
+    dispatchSaved(
+      "Versão anterior restaurada com sucesso."
+    );
+
+    await loadHistory();
+  } catch (error) {
+    console.error(
+      "Não foi possível restaurar a versão:",
+      error
+    );
+
+    window.alert(
+      error.message ||
+        "Não foi possível restaurar esta versão."
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent =
+      originalText;
+  }
 }
 
 function createHistoryItem(item) {
@@ -797,11 +1119,45 @@ function createHistoryItem(item) {
       "Sistema"
     }`;
 
+  const restoreButton =
+    document.createElement(
+      "button"
+    );
+
+  restoreButton.type =
+    "button";
+
+  restoreButton.className =
+    "admin-history-item__restore";
+
+  restoreButton.textContent =
+    "Restaurar";
+
+  restoreButton.setAttribute(
+    "aria-label",
+    `Restaurar versão de ${
+      formatHistoryDate(
+        item.changed_at
+      )
+    }`
+  );
+
+  restoreButton.addEventListener(
+    "click",
+    () => {
+      restoreHistoryVersion(
+        item.history_id,
+        restoreButton
+      );
+    }
+  );
+
   article.append(
     date,
     title,
     description,
-    author
+    author,
+    restoreButton
   );
 
   return article;
@@ -888,7 +1244,7 @@ async function loadHistory() {
 }
 
 /* ==================================================
-   EVENTOS E INICIALIZAÇÃO
+   EVENTOS
 ================================================== */
 
 function attachEvents() {

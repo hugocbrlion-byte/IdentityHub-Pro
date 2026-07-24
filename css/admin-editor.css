@@ -912,3 +912,92 @@
     grid-template-columns: 1fr;
   }
 }
+/* ==================================================
+   RESTAURO DE VERSÕES DO HISTÓRICO
+================================================== */
+
+.admin-history-item {
+  grid-template-columns:
+    minmax(125px, 0.55fr)
+    minmax(125px, 0.65fr)
+    minmax(200px, 1.5fr)
+    minmax(135px, 0.65fr)
+    auto;
+}
+
+.admin-history-item__restore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+  padding: 0.55rem 0.75rem;
+
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  font: inherit;
+  font-size: 0.66rem;
+  font-weight: 700;
+
+  background:
+    rgba(118, 87, 255, 0.1);
+
+  border:
+    1px solid
+    rgba(118, 87, 255, 0.24);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.admin-history-item__restore:hover {
+  background:
+    rgba(118, 87, 255, 0.18);
+
+  border-color:
+    rgba(118, 87, 255, 0.42);
+
+  transform:
+    translateY(-1px);
+}
+
+.admin-history-item__restore:focus-visible {
+  outline:
+    2px solid
+    var(
+      --admin-secondary,
+      #00cfee
+    );
+
+  outline-offset: 3px;
+}
+
+.admin-history-item__restore:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  transform: none;
+}
+
+@media (max-width: 850px) {
+  .admin-history-item {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .admin-history-item__restore {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-history-item {
+    grid-template-columns: 1fr;
+  }
+}
