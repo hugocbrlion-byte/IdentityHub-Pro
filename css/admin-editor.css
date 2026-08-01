@@ -1001,3 +1001,211 @@
     grid-template-columns: 1fr;
   }
 }
+/* ==================================================
+   CONTACT ICON ORDER
+================================================== */
+
+.admin-contact-order {
+  margin-top: 1rem;
+  padding: 1rem;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 17px;
+}
+
+.admin-contact-order__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-contact-order__heading strong {
+  font-size: 0.82rem;
+}
+
+.admin-contact-order__heading p {
+  margin: 0.35rem 0 0;
+
+  color: var(--admin-muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.admin-contact-order__reset {
+  flex: 0 0 auto;
+
+  padding: 0.55rem 0.7rem;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.admin-contact-order__list {
+  display: grid;
+  gap: 0.55rem;
+
+  margin: 1rem 0 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.admin-contact-order__item {
+  display: grid;
+  grid-template-columns:
+    28px 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+
+  min-height: 56px;
+  padding: 0.55rem 0.65rem;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 13px;
+}
+
+.admin-contact-order__position {
+  display: grid;
+  place-items: center;
+
+  width: 25px;
+  height: 25px;
+
+  color: var(--admin-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border-radius: 8px;
+}
+
+.admin-contact-order__symbol {
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  color: var(--admin-secondary);
+  font-size: 1rem;
+
+  background:
+    rgba(0, 207, 238, 0.07);
+
+  border:
+    1px solid
+    rgba(0, 207, 238, 0.12);
+
+  border-radius: 11px;
+}
+
+.admin-contact-order__symbol--whatsapp {
+  color: #52e49a;
+}
+
+.admin-contact-order__symbol--email {
+  color: #a78bfa;
+}
+
+.admin-contact-order__symbol--instagram {
+  color: #ff77b7;
+}
+
+.admin-contact-order__symbol--steam {
+  color: #b9c9e8;
+}
+
+.admin-contact-order__item strong {
+  font-size: 0.74rem;
+}
+
+.admin-contact-order__controls {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.admin-contact-order__controls button {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  color:
+    rgba(255, 255, 255, 0.78);
+
+  font: inherit;
+  font-size: 0.9rem;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  border-radius: 9px;
+
+  cursor: pointer;
+}
+
+.admin-contact-order__controls button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.admin-contact-order__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .admin-contact-order__heading,
+  .admin-contact-order__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-contact-order__reset {
+    width: 100%;
+  }
+
+  .admin-contact-order__item {
+    grid-template-columns:
+      26px 36px minmax(0, 1fr) auto;
+  }
+}

@@ -189,6 +189,48 @@ function normaliseText(value) {
     : "";
 }
 
+const DEFAULT_CONTACT_ORDER = [
+  "phone",
+  "whatsapp",
+  "email",
+  "instagram",
+  "steam"
+];
+
+function normaliseContactOrder(
+  value
+) {
+  const result = [];
+
+  const receivedOrder =
+    Array.isArray(value)
+      ? value
+      : [];
+
+  receivedOrder.forEach(
+    (key) => {
+      if (
+        DEFAULT_CONTACT_ORDER.includes(
+          key
+        ) &&
+        !result.includes(key)
+      ) {
+        result.push(key);
+      }
+    }
+  );
+
+  DEFAULT_CONTACT_ORDER.forEach(
+    (key) => {
+      if (!result.includes(key)) {
+        result.push(key);
+      }
+    }
+  );
+
+  return result;
+}
+
 function isActionVisible(
   profile,
   key
@@ -520,12 +562,32 @@ export function renderContactActions(
     }
   ];
 
-  const visibleActions =
-    actions.filter(
-      (action) =>
-        action.visible === true &&
-        Boolean(action.href)
-    );
+  const actionsByKey =
+  new Map(
+    actions.map(
+      (action) => [
+        action.key,
+        action
+      ]
+    )
+  );
+
+const orderedActions =
+  normaliseContactOrder(
+    profile.contact_order
+  )
+    .map(
+      (key) =>
+        actionsByKey.get(key)
+    )
+    .filter(Boolean);
+
+const visibleActions =
+  orderedActions.filter(
+    (action) =>
+      action.visible === true &&
+      Boolean(action.href)
+  );
 
   container.replaceChildren(
     ...visibleActions.map(

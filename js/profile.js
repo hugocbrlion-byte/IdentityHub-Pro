@@ -295,7 +295,20 @@ function mergeProfile(
       booleanOrFallback(
         settings.steam_visible,
         true
-      )
+      ),
+
+      contact_order:
+  Array.isArray(
+    settings.contact_order
+  )
+    ? settings.contact_order
+    : [
+        "phone",
+        "whatsapp",
+        "email",
+        "instagram",
+        "steam"
+      ]
   };
 }
 

@@ -38,7 +38,8 @@ const FIELD_LABELS = {
   whatsapp_visible: "Visibilidade do WhatsApp",
   email_visible: "Visibilidade do email",
   instagram_visible: "Visibilidade do Instagram",
-  steam_visible: "Visibilidade da Steam"
+  steam_visible: "Visibilidade da Steam",
+  contact_order: "Ordem dos ícones",
 };
 
 let controlsCreated = false;
@@ -1013,7 +1014,7 @@ async function restoreHistoryVersion(
       data,
       error
     } = await supabaseClient.rpc(
-      "restore_profile_history",
+      "restore_profile_history_v2",
       {
         p_history_id:
           numericHistoryId

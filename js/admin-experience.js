@@ -930,7 +930,34 @@ function createPreviewProfile() {
       readInputValue(
         "#motion-enabled-input",
         true
-      )
+      ),
+
+      contact_order: (() => {
+  const input =
+    document.querySelector(
+      "#contact-order-input"
+    );
+
+  try {
+    const parsed =
+      JSON.parse(
+        input?.value || "[]"
+      );
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+  } catch {
+    return [
+      "phone",
+      "whatsapp",
+      "email",
+      "instagram",
+      "steam"
+    ];
+  }
+})()
+      
   };
 }
 
