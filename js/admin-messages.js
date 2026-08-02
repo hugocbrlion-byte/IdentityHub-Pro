@@ -5,7 +5,8 @@ import {
 const STATUS_LABELS = {
   new: "Nova",
   read: "Lida",
-  archived: "Arquivada"
+  archived: "Arquivada",
+  deleted: "No lixo"
 };
 
 const DATE_FORMATTER =
@@ -17,8 +18,13 @@ const DATE_FORMATTER =
     }
   );
 
-let allMessages = [];
+const SEARCH_DELAY = 300;
+
+let messages = [];
 let currentFilter = "all";
+let currentSearch = "";
+let searchTimer = null;
+let isLoading = false;
 
 /* ==================================================
    CRIAR SECÇÃO
@@ -78,7 +84,7 @@ function createMessagesSection() {
         </h2>
 
         <p>
-          Consulta e organiza as mensagens enviadas através do cartão.
+          Pesquisa, organiza, exporta e recupera mensagens eliminadas.
         </p>
       </div>
 
@@ -108,7 +114,7 @@ function createMessagesSection() {
 
       <article>
         <span>
-          Total recebido
+          Total ativo
         </span>
 
         <strong id="admin-total-message-count">
@@ -116,9 +122,57 @@ function createMessagesSection() {
         </strong>
 
         <small>
-          mensagens guardadas
+          fora do lixo
         </small>
       </article>
+    </div>
+
+    <div class="admin-message-toolbar">
+
+      <label class="admin-message-search">
+        <span class="admin-message-search__icon">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+            ></circle>
+
+            <path
+              d="m20 20-4-4"
+            ></path>
+          </svg>
+        </span>
+
+        <input
+          type="search"
+          id="admin-message-search"
+          placeholder="Pesquisar por nome, email, telefone ou mensagem"
+          autocomplete="off"
+        >
+
+        <button
+          type="button"
+          id="clear-admin-message-search"
+          aria-label="Limpar pesquisa"
+          hidden
+        >
+          ×
+        </button>
+      </label>
+
+      <button
+        class="admin-button admin-button--secondary"
+        id="export-admin-messages"
+        type="button"
+        disabled
+      >
+        Exportar CSV
+      </button>
+
     </div>
 
     <div
@@ -156,6 +210,24 @@ function createMessagesSection() {
       >
         Arquivadas
       </button>
+
+      <button
+        type="button"
+        data-message-filter="deleted"
+        aria-pressed="false"
+      >
+        Lixo
+      </button>
+    </div>
+
+    <div class="admin-message-results">
+      <span id="admin-message-result-count">
+        A carregar…
+      </span>
+
+      <span id="admin-message-current-view">
+        Todas as mensagens
+      </span>
     </div>
 
     <div
@@ -173,6 +245,18 @@ function createMessagesSection() {
     section
   );
 
+  attachInterfaceEvents(
+    section
+  );
+}
+
+/* ==================================================
+   EVENTOS DA INTERFACE
+================================================== */
+
+function attachInterfaceEvents(
+  section
+) {
   section
     .querySelector(
       "#refresh-admin-messages"
@@ -181,6 +265,65 @@ function createMessagesSection() {
       "click",
       loadMessages
     );
+
+  section
+    .querySelector(
+      "#export-admin-messages"
+    )
+    ?.addEventListener(
+      "click",
+      exportMessagesToCSV
+    );
+
+  const searchInput =
+    section.querySelector(
+      "#admin-message-search"
+    );
+
+  const clearSearch =
+    section.querySelector(
+      "#clear-admin-message-search"
+    );
+
+  searchInput?.addEventListener(
+    "input",
+    () => {
+      currentSearch =
+        searchInput.value.trim();
+
+      if (clearSearch) {
+        clearSearch.hidden =
+          currentSearch === "";
+      }
+
+      window.clearTimeout(
+        searchTimer
+      );
+
+      searchTimer =
+        window.setTimeout(
+          loadMessages,
+          SEARCH_DELAY
+        );
+    }
+  );
+
+  clearSearch?.addEventListener(
+    "click",
+    () => {
+      if (!searchInput) {
+        return;
+      }
+
+      searchInput.value = "";
+      currentSearch = "";
+      clearSearch.hidden = true;
+
+      searchInput.focus();
+
+      loadMessages();
+    }
+  );
 
   section
     .querySelectorAll(
@@ -195,7 +338,7 @@ function createMessagesSection() {
               .messageFilter || "all";
 
           updateFilterButtons();
-          renderMessages();
+          loadMessages();
         }
       );
     });
@@ -231,45 +374,109 @@ function normaliseMessages(data) {
         message.message_status ||
         "new",
 
+      isDeleted:
+        message.is_deleted === true,
+
       createdAt:
         message.created_at,
 
       updatedAt:
-        message.updated_at
+        message.updated_at,
+
+      deletedAt:
+        message.deleted_at
     })
   );
 }
 
 /* ==================================================
-   RESUMO E FILTROS
+   RESUMO
 ================================================== */
 
-function updateOverview() {
-  const newCount =
-    allMessages.filter(
-      (message) =>
-        message.status === "new"
-    ).length;
-
-  const newElement =
-    document.querySelector(
-      "#admin-new-message-count"
+async function loadMessageSummary() {
+  try {
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "get_profile_admin_message_summary"
     );
 
-  const totalElement =
-    document.querySelector(
-      "#admin-total-message-count"
+    if (error) {
+      throw error;
+    }
+
+    const summary =
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+    setText(
+      "#admin-new-message-count",
+      String(
+        Number(
+          summary?.new_count
+        ) || 0
+      )
     );
 
-  if (newElement) {
-    newElement.textContent =
-      String(newCount);
+    setText(
+      "#admin-total-message-count",
+      String(
+        Number(
+          summary?.total_count
+        ) || 0
+      )
+    );
+  } catch (error) {
+    console.error(
+      "Não foi possível carregar o resumo das mensagens:",
+      error
+    );
   }
+}
 
-  if (totalElement) {
-    totalElement.textContent =
-      String(allMessages.length);
+/* ==================================================
+   INTERFACE
+================================================== */
+
+function setText(
+  selector,
+  value
+) {
+  const element =
+    document.querySelector(
+      selector
+    );
+
+  if (element) {
+    element.textContent =
+      value;
   }
+}
+
+function getCurrentViewLabel() {
+  const labels = {
+    all:
+      "Todas as mensagens",
+
+    new:
+      "Mensagens novas",
+
+    read:
+      "Mensagens lidas",
+
+    archived:
+      "Mensagens arquivadas",
+
+    deleted:
+      "Mensagens no lixo"
+  };
+
+  return (
+    labels[currentFilter] ||
+    labels.all
+  );
 }
 
 function updateFilterButtons() {
@@ -287,11 +494,34 @@ function updateFilterButtons() {
           : "false"
       );
     });
+
+  setText(
+    "#admin-message-current-view",
+    getCurrentViewLabel()
+  );
 }
 
-/* ==================================================
-   FORMATAÇÃO
-================================================== */
+function updateResultInformation() {
+  const count =
+    messages.length;
+
+  setText(
+    "#admin-message-result-count",
+    count === 1
+      ? "1 resultado"
+      : `${count} resultados`
+  );
+
+  const exportButton =
+    document.querySelector(
+      "#export-admin-messages"
+    );
+
+  if (exportButton) {
+    exportButton.disabled =
+      count === 0;
+  }
+}
 
 function formatDate(value) {
   const date =
@@ -311,7 +541,7 @@ function formatDate(value) {
 }
 
 /* ==================================================
-   CRIAR BOTÕES
+   BOTÕES DAS MENSAGENS
 ================================================== */
 
 function createActionButton(
@@ -342,24 +572,25 @@ function createActionButton(
 }
 
 /* ==================================================
-   CRIAR CARTÃO DE MENSAGEM
+   CARTÃO DE MENSAGEM
 ================================================== */
 
 function createMessageCard(message) {
+  const displayedStatus =
+    message.isDeleted
+      ? "deleted"
+      : message.status;
+
   const article =
     document.createElement(
       "article"
     );
 
   article.className =
-    `admin-message-card admin-message-card--${message.status}`;
+    `admin-message-card admin-message-card--${displayedStatus}`;
 
   article.dataset.messageId =
     message.id;
-
-  /* ------------------------------
-     CABEÇALHO
-  ------------------------------ */
 
   const header =
     document.createElement(
@@ -388,14 +619,36 @@ function createMessageCard(message) {
     message.createdAt || "";
 
   date.textContent =
-    formatDate(
+    `Recebida em ${formatDate(
       message.createdAt
-    );
+    )}`;
 
   identity.append(
     name,
     date
   );
+
+  if (
+    message.isDeleted &&
+    message.deletedAt
+  ) {
+    const deletedDate =
+      document.createElement(
+        "small"
+      );
+
+    deletedDate.className =
+      "admin-message-card__deleted-date";
+
+    deletedDate.textContent =
+      `Movida para o lixo em ${formatDate(
+        message.deletedAt
+      )}`;
+
+    identity.appendChild(
+      deletedDate
+    );
+  }
 
   const status =
     document.createElement(
@@ -407,17 +660,13 @@ function createMessageCard(message) {
 
   status.textContent =
     STATUS_LABELS[
-      message.status
-    ] || message.status;
+      displayedStatus
+    ] || displayedStatus;
 
   header.append(
     identity,
     status
   );
-
-  /* ------------------------------
-     CONTACTOS
-  ------------------------------ */
 
   const contacts =
     document.createElement(
@@ -437,11 +686,6 @@ function createMessageCard(message) {
     email.textContent =
       message.email;
 
-    email.setAttribute(
-      "aria-label",
-      `Enviar email para ${message.email}`
-    );
-
     contacts.appendChild(
       email
     );
@@ -457,19 +701,10 @@ function createMessageCard(message) {
     phone.textContent =
       message.phone;
 
-    phone.setAttribute(
-      "aria-label",
-      `Telefonar para ${message.phone}`
-    );
-
     contacts.appendChild(
       phone
     );
   }
-
-  /* ------------------------------
-     CORPO DA MENSAGEM
-  ------------------------------ */
 
   const body =
     document.createElement("p");
@@ -480,10 +715,6 @@ function createMessageCard(message) {
   body.textContent =
     message.message;
 
-  /* ------------------------------
-     AÇÕES
-  ------------------------------ */
-
   const actions =
     document.createElement(
       "div"
@@ -492,68 +723,100 @@ function createMessageCard(message) {
   actions.className =
     "admin-message-card__actions";
 
-  if (message.email) {
-    const reply =
-      document.createElement("a");
-
-    reply.className =
-      "admin-message-card__reply";
-
-    reply.href =
-      `mailto:${message.email}?subject=${encodeURIComponent(
-        "Resposta à tua mensagem"
-      )}`;
-
-    reply.textContent =
-      "Responder por email";
-
-    actions.appendChild(
-      reply
-    );
-  }
-
-  if (message.status === "new") {
+  if (message.isDeleted) {
     actions.appendChild(
       createActionButton(
-        "Marcar como lida",
-        "admin-message-card__button",
+        "Restaurar mensagem",
+        "admin-message-card__button admin-message-card__button--restore",
         (button) => {
-          updateMessageStatus(
+          restoreMessage(
             message.id,
-            "read",
-            button
-          );
-        }
-      )
-    );
-  }
-
-  if (
-    message.status !==
-    "archived"
-  ) {
-    actions.appendChild(
-      createActionButton(
-        "Arquivar",
-        "admin-message-card__button admin-message-card__button--archive",
-        (button) => {
-          updateMessageStatus(
-            message.id,
-            "archived",
             button
           );
         }
       )
     );
   } else {
+    if (message.email) {
+      const reply =
+        document.createElement("a");
+
+      reply.className =
+        "admin-message-card__reply";
+
+      reply.href =
+        `mailto:${message.email}?subject=${encodeURIComponent(
+          "Resposta à tua mensagem"
+        )}`;
+
+      reply.textContent =
+        "Responder por email";
+
+      actions.appendChild(
+        reply
+      );
+    }
+
+    if (
+      message.status ===
+      "new"
+    ) {
+      actions.appendChild(
+        createActionButton(
+          "Marcar como lida",
+          "admin-message-card__button",
+          (button) => {
+            updateMessageStatus(
+              message.id,
+              "read",
+              button
+            );
+          }
+        )
+      );
+    }
+
+    if (
+      message.status !==
+      "archived"
+    ) {
+      actions.appendChild(
+        createActionButton(
+          "Arquivar",
+          "admin-message-card__button",
+          (button) => {
+            updateMessageStatus(
+              message.id,
+              "archived",
+              button
+            );
+          }
+        )
+      );
+    } else {
+      actions.appendChild(
+        createActionButton(
+          "Retirar do arquivo",
+          "admin-message-card__button",
+          (button) => {
+            updateMessageStatus(
+              message.id,
+              "read",
+              button
+            );
+          }
+        )
+      );
+    }
+
     actions.appendChild(
       createActionButton(
-        "Restaurar",
-        "admin-message-card__button",
+        "Mover para o lixo",
+        "admin-message-card__button admin-message-card__button--trash",
         (button) => {
-          updateMessageStatus(
+          moveMessageToTrash(
             message.id,
-            "read",
+            message.name,
             button
           );
         }
@@ -572,7 +835,7 @@ function createMessageCard(message) {
 }
 
 /* ==================================================
-   RENDERIZAR MENSAGENS
+   RENDERIZAÇÃO
 ================================================== */
 
 function renderMessages() {
@@ -585,19 +848,10 @@ function renderMessages() {
     return;
   }
 
-  const filteredMessages =
-    currentFilter === "all"
-      ? allMessages
-      : allMessages.filter(
-          (message) =>
-            message.status ===
-            currentFilter
-        );
-
   list.replaceChildren();
 
   if (
-    filteredMessages.length === 0
+    messages.length === 0
   ) {
     const empty =
       document.createElement("p");
@@ -605,30 +859,49 @@ function renderMessages() {
     empty.className =
       "admin-message-list__empty";
 
-    empty.textContent =
-      currentFilter === "all"
-        ? "Ainda não existem mensagens."
-        : "Não existem mensagens neste estado.";
+    if (currentSearch) {
+      empty.textContent =
+        "Não foram encontradas mensagens para esta pesquisa.";
+    } else if (
+      currentFilter ===
+      "deleted"
+    ) {
+      empty.textContent =
+        "O lixo está vazio.";
+    } else {
+      empty.textContent =
+        "Não existem mensagens neste estado.";
+    }
 
     list.appendChild(
       empty
     );
 
+    updateResultInformation();
+
     return;
   }
 
   list.append(
-    ...filteredMessages.map(
+    ...messages.map(
       createMessageCard
     )
   );
+
+  updateResultInformation();
 }
 
 /* ==================================================
-   CARREGAR MENSAGENS DO SUPABASE
+   CARREGAR MENSAGENS
 ================================================== */
 
 async function loadMessages() {
+  if (isLoading) {
+    return;
+  }
+
+  isLoading = true;
+
   const list =
     document.querySelector(
       "#admin-message-list"
@@ -641,6 +914,11 @@ async function loadMessages() {
       </p>
     `;
   }
+
+  setText(
+    "#admin-message-result-count",
+    "A carregar…"
+  );
 
   try {
     const {
@@ -655,14 +933,6 @@ async function loadMessages() {
     }
 
     if (!sessionData.session) {
-      if (list) {
-        list.innerHTML = `
-          <p class="admin-message-list__empty">
-            Inicia sessão para consultar as mensagens.
-          </p>
-        `;
-      }
-
       return;
     }
 
@@ -670,10 +940,16 @@ async function loadMessages() {
       data,
       error
     } = await supabaseClient.rpc(
-      "get_profile_admin_messages",
+      "get_profile_admin_messages_v2",
       {
-        p_status: null,
-        p_limit: 100
+        p_view:
+          currentFilter,
+
+        p_search:
+          currentSearch,
+
+        p_limit:
+          500
       }
     );
 
@@ -681,16 +957,19 @@ async function loadMessages() {
       throw error;
     }
 
-    allMessages =
+    messages =
       normaliseMessages(data);
 
-    updateOverview();
     renderMessages();
+
+    await loadMessageSummary();
   } catch (error) {
     console.error(
       "Não foi possível carregar as mensagens:",
       error
     );
+
+    messages = [];
 
     if (list) {
       list.innerHTML = `
@@ -699,6 +978,13 @@ async function loadMessages() {
         </p>
       `;
     }
+
+    setText(
+      "#admin-message-result-count",
+      "Indisponível"
+    );
+  } finally {
+    isLoading = false;
   }
 }
 
@@ -720,24 +1006,6 @@ async function updateMessageStatus(
 
   try {
     const {
-      data: sessionData,
-      error: sessionError
-    } =
-      await supabaseClient.auth
-        .getSession();
-
-    if (sessionError) {
-      throw sessionError;
-    }
-
-    if (!sessionData.session) {
-      throw new Error(
-        "A sessão terminou. Inicia sessão novamente."
-      );
-    }
-
-    const {
-      data,
       error
     } = await supabaseClient.rpc(
       "update_profile_message_status",
@@ -754,26 +1022,7 @@ async function updateMessageStatus(
       throw error;
     }
 
-    if (data !== true) {
-      throw new Error(
-        "A mensagem não foi encontrada."
-      );
-    }
-
     await loadMessages();
-
-    window.dispatchEvent(
-      new CustomEvent(
-        "identityhub:messagestatuschanged",
-        {
-          detail: {
-            messageId,
-            status:
-              nextStatus
-          }
-        }
-      )
-    );
   } catch (error) {
     console.error(
       "Não foi possível atualizar a mensagem:",
@@ -787,27 +1036,248 @@ async function updateMessageStatus(
 }
 
 /* ==================================================
-   ATUALIZAÇÃO EM TEMPO REAL
+   MOVER PARA O LIXO
+================================================== */
+
+async function moveMessageToTrash(
+  messageId,
+  senderName,
+  button
+) {
+  const confirmed =
+    window.confirm(
+      `Mover a mensagem de ${senderName} para o lixo?\n\nA mensagem poderá ser restaurada mais tarde.`
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const originalText =
+    button.textContent;
+
+  button.disabled = true;
+  button.textContent =
+    "A mover…";
+
+  try {
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "move_profile_message_to_trash",
+      {
+        p_message_id:
+          messageId
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    if (data !== true) {
+      throw new Error(
+        "A mensagem não foi encontrada."
+      );
+    }
+
+    await loadMessages();
+  } catch (error) {
+    console.error(
+      "Não foi possível mover a mensagem para o lixo:",
+      error
+    );
+
+    button.disabled = false;
+    button.textContent =
+      originalText;
+  }
+}
+
+/* ==================================================
+   RESTAURAR DO LIXO
+================================================== */
+
+async function restoreMessage(
+  messageId,
+  button
+) {
+  const originalText =
+    button.textContent;
+
+  button.disabled = true;
+  button.textContent =
+    "A restaurar…";
+
+  try {
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "restore_profile_message_from_trash",
+      {
+        p_message_id:
+          messageId
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    if (data !== true) {
+      throw new Error(
+        "A mensagem não foi encontrada."
+      );
+    }
+
+    await loadMessages();
+  } catch (error) {
+    console.error(
+      "Não foi possível restaurar a mensagem:",
+      error
+    );
+
+    button.disabled = false;
+    button.textContent =
+      originalText;
+  }
+}
+
+/* ==================================================
+   EXPORTAR CSV
+================================================== */
+
+function escapeCSVValue(value) {
+  const text =
+    String(
+      value ?? ""
+    );
+
+  if (
+    text.includes(";") ||
+    text.includes('"') ||
+    text.includes("\n")
+  ) {
+    return (
+      `"${text.replaceAll(
+        '"',
+        '""'
+      )}"`
+    );
+  }
+
+  return text;
+}
+
+function exportMessagesToCSV() {
+  if (
+    messages.length === 0
+  ) {
+    return;
+  }
+
+  const header = [
+    "Nome",
+    "Email",
+    "Telefone",
+    "Mensagem",
+    "Estado",
+    "Recebida em",
+    "Eliminada em"
+  ];
+
+  const rows =
+    messages.map(
+      (message) => [
+        message.name,
+        message.email,
+        message.phone,
+        message.message,
+        message.isDeleted
+          ? "No lixo"
+          : STATUS_LABELS[
+              message.status
+            ],
+        message.createdAt,
+        message.deletedAt || ""
+      ]
+    );
+
+  const csvContent =
+    [
+      header,
+      ...rows
+    ]
+      .map(
+        (row) =>
+          row
+            .map(
+              escapeCSVValue
+            )
+            .join(";")
+      )
+      .join("\n");
+
+  const blob =
+    new Blob(
+      [
+        "\uFEFF",
+        csvContent
+      ],
+      {
+        type:
+          "text/csv;charset=utf-8"
+      }
+    );
+
+  const objectUrl =
+    URL.createObjectURL(
+      blob
+    );
+
+  const link =
+    document.createElement("a");
+
+  const currentDate =
+    new Date()
+      .toISOString()
+      .slice(0, 10);
+
+  link.href =
+    objectUrl;
+
+  link.download =
+    `identityhub-mensagens-${currentFilter}-${currentDate}.csv`;
+
+  document.body.appendChild(
+    link
+  );
+
+  link.click();
+  link.remove();
+
+  window.setTimeout(
+    () => {
+      URL.revokeObjectURL(
+        objectUrl
+      );
+    },
+    1000
+  );
+}
+
+/* ==================================================
+   REALTIME
 ================================================== */
 
 window.addEventListener(
   "identityhub:messageschanged",
   () => {
-    loadMessages();
-  }
-);
-
-/*
- * Quando uma mensagem muda de estado,
- * o módulo de tempo real pode atualizar
- * novamente o contador.
- */
-window.addEventListener(
-  "identityhub:messagestatuschanged",
-  () => {
     window.setTimeout(
       loadMessages,
-      100
+      80
     );
   }
 );
@@ -848,9 +1318,7 @@ async function initialiseMessages() {
             if (session) {
               loadMessages();
             } else {
-              allMessages = [];
-
-              updateOverview();
+              messages = [];
               renderMessages();
             }
           },

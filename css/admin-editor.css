@@ -1850,3 +1850,301 @@ div > span {
     flex-direction: column;
   }
 }
+
+/* ==================================================
+   MESSAGE SEARCH, EXPORT AND TRASH
+================================================== */
+
+.admin-message-toolbar {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+
+  margin-top: 1rem;
+}
+
+.admin-message-search {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+}
+
+.admin-message-search__icon {
+  position: absolute;
+  left: 0.8rem;
+  z-index: 1;
+
+  display: grid;
+  place-items: center;
+
+  width: 18px;
+  height: 18px;
+
+  color:
+    rgba(255, 255, 255, 0.38);
+
+  pointer-events: none;
+}
+
+.admin-message-search__icon svg {
+  width: 17px;
+  height: 17px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admin-message-search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+
+  padding:
+    0.7rem
+    2.7rem
+    0.7rem
+    2.4rem;
+
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  font: inherit;
+  font-size: 0.68rem;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  border-radius: 12px;
+
+  outline: none;
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.admin-message-search input::placeholder {
+  color:
+    rgba(255, 255, 255, 0.3);
+}
+
+.admin-message-search input:focus {
+  border-color:
+    var(--admin-secondary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(0, 207, 238, 0.08);
+}
+
+.admin-message-search
+#clear-admin-message-search {
+  position: absolute;
+  right: 0.45rem;
+
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+  padding: 0;
+
+  color:
+    rgba(255, 255, 255, 0.55);
+
+  font: inherit;
+  font-size: 1rem;
+
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.admin-message-search
+#clear-admin-message-search:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.06);
+}
+
+.admin-message-search
+#clear-admin-message-search[hidden] {
+  display: none;
+}
+
+/* ==================================================
+   MESSAGE RESULTS
+================================================== */
+
+.admin-message-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-top: 0.8rem;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 0.62rem;
+}
+
+#admin-message-result-count {
+  color:
+    var(--admin-secondary);
+
+  font-weight: 700;
+}
+
+/* ==================================================
+   TRASH FILTER
+================================================== */
+
+.admin-message-filters
+button[data-message-filter="deleted"] {
+  color:
+    rgba(255, 173, 186, 0.65);
+}
+
+.admin-message-filters
+button[data-message-filter="deleted"]
+[aria-pressed="true"] {
+  color: #ffffff;
+}
+
+.admin-message-filters
+button[data-message-filter="deleted"][aria-pressed="true"] {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(200, 62, 86, 0.7),
+      rgba(255, 105, 128, 0.45)
+    );
+}
+
+/* ==================================================
+   DELETED MESSAGE CARD
+================================================== */
+
+.admin-message-card--deleted {
+  opacity: 0.74;
+
+  border-color:
+    rgba(255, 82, 109, 0.18);
+
+  background:
+    rgba(255, 82, 109, 0.025);
+
+  box-shadow:
+    inset 3px 0 0
+    rgba(255, 82, 109, 0.38);
+}
+
+.admin-message-card--deleted
+.admin-message-card__status {
+  color: #ff9fb0;
+
+  background:
+    rgba(255, 82, 109, 0.08);
+}
+
+.admin-message-card__deleted-date {
+  display: block;
+
+  margin-top: 0.25rem;
+
+  color:
+    rgba(255, 140, 158, 0.58);
+
+  font-size: 0.58rem;
+}
+
+/* ==================================================
+   TRASH AND RESTORE BUTTONS
+================================================== */
+
+.admin-message-card__button--trash {
+  color: #ffadba;
+
+  background:
+    rgba(255, 82, 109, 0.065);
+
+  border-color:
+    rgba(255, 82, 109, 0.16);
+}
+
+.admin-message-card__button--trash:hover {
+  background:
+    rgba(255, 82, 109, 0.12);
+
+  border-color:
+    rgba(255, 82, 109, 0.26);
+}
+
+.admin-message-card__button--restore {
+  color: #76e7b0;
+
+  background:
+    rgba(82, 228, 154, 0.07);
+
+  border-color:
+    rgba(82, 228, 154, 0.17);
+}
+
+.admin-message-card__button--restore:hover {
+  background:
+    rgba(82, 228, 154, 0.13);
+
+  border-color:
+    rgba(82, 228, 154, 0.28);
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 650px) {
+  .admin-message-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-message-toolbar
+  .admin-button {
+    width: 100%;
+  }
+
+  .admin-message-results {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .admin-message-filters {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-message-filters
+  button:last-child {
+    grid-column:
+      1 / -1;
+  }
+}
