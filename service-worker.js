@@ -1,5 +1,5 @@
 const CACHE_VERSION =
-  "identityhub-pro-v32";
+  "identityhub-pro-v33";
 const OFFLINE_PAGE = "./index.html";
 
 const APP_SHELL = [
@@ -58,6 +58,7 @@ const APP_SHELL = [
 "./js/admin-contact-order.js",
 "./js/action-tracking.js",
 "./js/admin-action-stats.js",
+"./js/admin-funnel.js",
 ];
 
 /*
