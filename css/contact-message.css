@@ -1,0 +1,521 @@
+/* ==================================================
+   PUBLIC MESSAGE BUTTON
+================================================== */
+
+.contact-message-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+
+  width: 100%;
+  min-height: 48px;
+  margin-top: 0.9rem;
+  padding: 0.8rem 1rem;
+
+  color:
+    rgba(255, 255, 255, 0.92);
+
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.11);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.17);
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.contact-message-button__icon {
+  display: grid;
+  place-items: center;
+
+  width: 19px;
+  height: 19px;
+}
+
+.contact-message-button__icon svg {
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-message-button:focus-visible {
+  outline:
+    2px solid
+    var(
+      --theme-secondary,
+      #00cfee
+    );
+
+  outline-offset: 3px;
+}
+
+.contact-message-button:active {
+  transform:
+    translateY(1px)
+    scale(0.985);
+}
+
+@media (hover: hover) {
+  .contact-message-button:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      rgba(255, 255, 255, 0.2);
+
+    background:
+      rgba(255, 255, 255, 0.085);
+  }
+}
+
+/* ==================================================
+   MESSAGE MODAL
+================================================== */
+
+body.contact-message-open {
+  overflow: hidden;
+}
+
+.contact-message-modal[hidden] {
+  display: none;
+}
+
+.contact-message-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1rem;
+
+  opacity: 0;
+
+  transition:
+    opacity 180ms ease;
+}
+
+.contact-message-modal--visible {
+  opacity: 1;
+}
+
+.contact-message-modal__backdrop {
+  position: absolute;
+  inset: 0;
+
+  background:
+    rgba(1, 3, 7, 0.82);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.contact-message-modal__panel {
+  position: relative;
+  z-index: 1;
+
+  overflow: auto;
+
+  width:
+    min(100%, 520px);
+
+  max-height:
+    min(90vh, 760px);
+
+  padding: 1.3rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 25, 38, 0.98),
+      rgba(7, 10, 17, 0.98)
+    );
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 35px 100px
+    rgba(0, 0, 0, 0.62);
+
+  transform:
+    translateY(16px)
+    scale(0.98);
+
+  transition:
+    transform 180ms ease;
+}
+
+.contact-message-modal--visible
+.contact-message-modal__panel {
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+/* ==================================================
+   MODAL HEADER
+================================================== */
+
+.contact-message-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-bottom: 1.1rem;
+}
+
+.contact-message-modal__header
+div > span {
+  color:
+    var(
+      --theme-secondary,
+      #00cfee
+    );
+
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-message-modal__header h2 {
+  margin: 0.4rem 0 0;
+
+  color: #ffffff;
+  font-size: 1.15rem;
+}
+
+.contact-message-modal__header p {
+  margin: 0.4rem 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.5);
+
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.contact-message-modal__close {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 36px;
+
+  width: 36px;
+  height: 36px;
+  padding: 0;
+
+  color:
+    rgba(255, 255, 255, 0.7);
+
+  font: inherit;
+  font-size: 1.35rem;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 11px;
+
+  cursor: pointer;
+}
+
+/* ==================================================
+   MESSAGE FORM
+================================================== */
+
+.contact-message-form {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 0.85rem;
+}
+
+.contact-message-field {
+  display: grid;
+  gap: 0.4rem;
+
+  min-width: 0;
+}
+
+.contact-message-field--wide {
+  grid-column:
+    1 / -1;
+}
+
+.contact-message-field > span {
+  color:
+    rgba(255, 255, 255, 0.7);
+
+  font-size: 0.65rem;
+  font-weight: 650;
+}
+
+.contact-message-field
+span small {
+  margin-left: 0.25rem;
+
+  color:
+    rgba(255, 255, 255, 0.35);
+
+  font-size: 0.56rem;
+  font-weight: 500;
+}
+
+.contact-message-field input,
+.contact-message-field textarea {
+  width: 100%;
+  min-width: 0;
+
+  padding: 0.75rem 0.8rem;
+
+  color:
+    rgba(255, 255, 255, 0.92);
+
+  font: inherit;
+  font-size: 0.72rem;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 12px;
+
+  outline: none;
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.contact-message-field textarea {
+  resize: vertical;
+
+  min-height: 125px;
+}
+
+.contact-message-field input:focus,
+.contact-message-field textarea:focus {
+  border-color:
+    var(
+      --theme-secondary,
+      #00cfee
+    );
+
+  box-shadow:
+    0 0 0 3px
+    rgba(0, 207, 238, 0.09);
+}
+
+.contact-message-field > small {
+  justify-self: end;
+
+  color:
+    rgba(255, 255, 255, 0.36);
+
+  font-size: 0.56rem;
+}
+
+.contact-message-honeypot {
+  position: absolute !important;
+
+  overflow: hidden !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  opacity: 0 !important;
+
+  pointer-events: none !important;
+
+  clip:
+    rect(0 0 0 0) !important;
+}
+
+/* ==================================================
+   FORM STATUS AND ACTIONS
+================================================== */
+
+.contact-message-status {
+  grid-column:
+    1 / -1;
+
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+
+  color: #ffb5c1;
+  font-size: 0.66rem;
+  line-height: 1.45;
+
+  background:
+    rgba(255, 82, 109, 0.08);
+
+  border:
+    1px solid
+    rgba(255, 82, 109, 0.18);
+
+  border-radius: 11px;
+}
+
+.contact-message-form__actions {
+  grid-column:
+    1 / -1;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+
+  margin-top: 0.25rem;
+}
+
+.contact-message-cancel,
+.contact-message-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  min-height: 42px;
+  padding: 0.65rem 0.9rem;
+
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+
+  border-radius: 11px;
+
+  cursor: pointer;
+}
+
+.contact-message-cancel {
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+}
+
+.contact-message-submit {
+  background:
+    linear-gradient(
+      135deg,
+      var(
+        --theme-primary,
+        #7657ff
+      ),
+      var(
+        --theme-secondary,
+        #00cfee
+      )
+    );
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+}
+
+.contact-message-submit:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.contact-message-spinner {
+  width: 14px;
+  height: 14px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.35);
+
+  border-top-color: #ffffff;
+  border-radius: 50%;
+
+  animation:
+    contact-message-spin
+    700ms linear infinite;
+}
+
+@keyframes contact-message-spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-message-modal {
+    padding: 0.7rem;
+  }
+
+  .contact-message-modal__panel {
+    padding: 1rem;
+
+    border-radius: 18px;
+  }
+
+  .contact-message-form {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-message-field--wide,
+  .contact-message-status,
+  .contact-message-form__actions {
+    grid-column: auto;
+  }
+
+  .contact-message-form__actions {
+    display: grid;
+    grid-template-columns:
+      1fr 1fr;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .contact-message-modal,
+  .contact-message-modal__panel,
+  .contact-message-button {
+    transition: none;
+  }
+}
