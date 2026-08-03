@@ -520,3 +520,34 @@
     transition: none;
   }
 }
+/* ==================================================
+   GARANTIR INTERAÇÃO DOS BOTÕES PRINCIPAIS
+================================================== */
+
+.profile-buttons {
+  position: relative;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+.profile-button {
+  position: relative;
+  z-index: 21;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.profile-button *,
+.profile-button__icon,
+.profile-button__icon svg {
+  pointer-events: none;
+}
+
+.qr-section {
+  position: relative;
+  z-index: 10;
+}
+
+.light-reflection {
+  pointer-events: none;
+}
