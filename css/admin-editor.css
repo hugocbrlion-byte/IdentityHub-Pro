@@ -2148,3 +2148,267 @@ button[data-message-filter="deleted"][aria-pressed="true"] {
       1 / -1;
   }
 }
+/* ==================================================
+   BULK MESSAGE ACTIONS
+================================================== */
+
+.admin-message-bulk {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.6rem;
+
+  margin-top: 0.75rem;
+  padding: 0.7rem;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 13px;
+}
+
+.admin-message-bulk__selection {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  margin-right: auto;
+}
+
+.admin-message-bulk__selection
+strong {
+  color:
+    var(--admin-secondary);
+
+  font-size: 0.64rem;
+}
+
+/* ==================================================
+   SELECT ALL
+================================================== */
+
+.admin-message-bulk__select-all,
+.admin-message-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  color:
+    rgba(255, 255, 255, 0.65);
+
+  font-size: 0.63rem;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.admin-message-bulk__select-all
+input,
+.admin-message-select
+input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+
+  accent-color:
+    var(--admin-secondary);
+
+  cursor: pointer;
+}
+
+.admin-message-select {
+  flex: 0 0 auto;
+
+  margin-top: 0.1rem;
+}
+
+.admin-message-select span {
+  display: none;
+}
+
+/* ==================================================
+   BULK BUTTONS
+================================================== */
+
+.admin-message-bulk__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.admin-message-bulk__actions[hidden],
+.admin-message-bulk__empty-trash[hidden],
+.admin-message-bulk__status[hidden] {
+  display: none !important;
+}
+
+.admin-message-bulk__actions
+button,
+.admin-message-bulk__empty-trash {
+  min-height: 34px;
+  padding: 0.45rem 0.65rem;
+
+  color:
+    rgba(255, 255, 255, 0.78);
+
+  font: inherit;
+  font-size: 0.61rem;
+  font-weight: 700;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.admin-message-bulk__actions
+button:hover,
+.admin-message-bulk__empty-trash:hover {
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border-color:
+    rgba(255, 255, 255, 0.16);
+
+  transform:
+    translateY(-1px);
+}
+
+.admin-message-bulk__actions
+button:disabled,
+.admin-message-bulk__empty-trash:disabled {
+  opacity: 0.5;
+  cursor: wait;
+  transform: none;
+}
+
+/* ==================================================
+   DESTRUCTIVE AND RESTORE BUTTONS
+================================================== */
+
+.admin-message-bulk__trash,
+.admin-message-bulk__delete,
+.admin-message-bulk__empty-trash {
+  color: #ffadba !important;
+
+  background:
+    rgba(255, 82, 109, 0.06) !important;
+
+  border-color:
+    rgba(255, 82, 109, 0.16) !important;
+}
+
+.admin-message-bulk__restore {
+  color: #76e7b0 !important;
+
+  background:
+    rgba(82, 228, 154, 0.07) !important;
+
+  border-color:
+    rgba(82, 228, 154, 0.17) !important;
+}
+
+/* ==================================================
+   STATUS
+================================================== */
+
+.admin-message-bulk__status {
+  flex-basis: 100%;
+
+  margin: 0;
+  padding: 0.6rem 0.7rem;
+
+  color: #76e7b0;
+  font-size: 0.63rem;
+
+  background:
+    rgba(82, 228, 154, 0.06);
+
+  border:
+    1px solid
+    rgba(82, 228, 154, 0.14);
+
+  border-radius: 9px;
+}
+
+.admin-message-bulk__status[
+  data-type="error"
+] {
+  color: #ffadba;
+
+  background:
+    rgba(255, 82, 109, 0.06);
+
+  border-color:
+    rgba(255, 82, 109, 0.16);
+}
+
+/* ==================================================
+   MESSAGE HEADER WITH CHECKBOX
+================================================== */
+
+.admin-message-card header {
+  align-items: flex-start;
+}
+
+.admin-message-card header
+.admin-message-select
++ div {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 750px) {
+  .admin-message-bulk {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-message-bulk__selection {
+    justify-content:
+      space-between;
+
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .admin-message-bulk__actions {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    width: 100%;
+  }
+
+  .admin-message-bulk__actions
+  button,
+  .admin-message-bulk__empty-trash {
+    width: 100%;
+  }
+}
+
+@media (max-width: 450px) {
+  .admin-message-bulk__actions {
+    grid-template-columns: 1fr;
+  }
+}
